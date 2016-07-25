@@ -26,7 +26,7 @@ public class Solution {
                 if(!c2Set.contains(c2)) {       // avoid duplicates
                     c2Set.add(c2);
                     dependency.put(c1, c2Set);
-                    degree[c2 - 'a']++;
+                    degree[c2 - 'a']++;         // some one is in front of c2 
                     break;
                 }
             }
