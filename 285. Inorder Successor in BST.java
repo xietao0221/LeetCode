@@ -44,8 +44,10 @@ public class Solution {
         TreeNode temp = root, result = null;
         while(temp != null) {
             if(temp.val <= p.val) {
+                // don't need to save root if go down-right
                 temp = temp.right;
             } else {
+                // have to save root if go down-left
                 // in this case, temp can be p's inorder successor, so store it temporarilly
                 result = temp;      
                 temp = temp.left;
