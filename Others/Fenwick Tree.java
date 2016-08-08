@@ -23,9 +23,9 @@ public class FenwickTree {
         originalNums = new int[input.length];
 
         // update the node from index 1 because node 0 is dummy node
-        for(int i=1; i<=input.length; i++) {
-            originalNums[i-1] = input[i-1];
-            updateFenwickTree(i, input[i-1]);
+        for(int i=0; i<input.length; i++) {
+            originalNums[i] = input[i];
+            updateFenwickTree(i + 1, input[i]);
         }
     }
 
@@ -44,9 +44,9 @@ public class FenwickTree {
 
     // get the sum of (0, index) of original array
     public int getSum(int index) {
-        index++;      // the # of node is one larger than index
+        index++;                // the # of node is one larger than index
         int sum = 0;
-        while(index > 0) {
+        while(index > 0) {      // index 0 is the dummy node
             sum += fenwickTree[index];
             index = getParent(index);
         }
