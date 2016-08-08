@@ -15,58 +15,50 @@
  *
  * */
 public class FenwickTree {
-    /**
-     * Start from index+1 if you updating index in original array. Keep adding this value
-     * for next node till you reach outside range of tree
-     */
-    public void updateBinaryIndexedTree(int binaryIndexedTree[], int val, int index){
-        while(index < binaryIndexedTree.length) {
-            binaryIndexedTree[index] += val;
+    private int[] fenwickTree, originalNums;
+
+    // create fenwick tree
+    public FenwickTree(int[] input) {
+        fenwickTree = new int[input.length+1];
+        originalNums = new int[input.length];
+
+        // update the node from index 1 because node 0 is dummy node
+        for(int i=1; i<=input.length; i++) {
+            originalNums[i-1] = input[i-1];
+            updateFenwickTree(i, input[i-1]);
+        }
+    }
+
+    // modify the element of original array at 'index' to 'value'
+    public void updateValue(int index, int value) {
+        updateFenwickTree(index + 1, value - originalNums[index]);
+    }
+
+    // update the node of fenwick tree at 'index', and then update the its next ones
+    private void updateFenwickTree(int index, int diff) {
+        while(index < fenwickTree.length) {
+            fenwickTree[index] += diff;
             index = getNext(index);
         }
     }
 
-    /**
-     * Start from index+1 if you want prefix sum 0 to index. Keep adding value
-     * till you reach 0
-     */
-    public int getSum(int binaryIndexedTree[], int index) {
-        index = index + 1;      // the # of node is one larger than index
+    // get the sum of (0, index) of original array
+    public int getSum(int index) {
+        index++;      // the # of node is one larger than index
         int sum = 0;
         while(index > 0) {
-            sum += binaryIndexedTree[index];
+            sum += fenwickTree[index];
             index = getParent(index);
         }
         return sum;
     }
 
-    /**
-     * Creating tree is like updating Fenwick tree for every value in array
-     */
-    public int[] createTree(int input[]) {
-        int binaryIndexedTree[] = new int[input.length+1];
-        for(int i=1; i <= input.length; i++){
-            updateBinaryIndexedTree(binaryIndexedTree, input[i-1], i);
-        }
-        return binaryIndexedTree;
-    }
-
-    /**
-     * To get parent
-     * 1) 2's complement to get minus of index
-     * 2) AND this with index
-     * 3) Subtract that from index
-     */
+    // get the parent of node in fenwick tree
     private int getParent(int index) {
         return index - (index & -index);
     }
 
-    /**
-     * To get next
-     * 1) 2's complement of get minus of index
-     * 2) AND this with index
-     * 3) Add it to index
-     */
+    // get the next of node in fenwick tree
     private int getNext(int index) {
         return index + (index & -index);
     }
