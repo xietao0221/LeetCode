@@ -1,4 +1,44 @@
 public class NumArray {
+    int[] original, fenwickTree;
+    public NumArray(int[] nums) {
+        original = new int[nums.length];
+        fenwickTree = new int[nums.length + 1];
+        for(int i=0; i<nums.length; i++) {
+            update(i, nums[i]);
+        }
+    }
+
+    void update(int index, int val) {
+        int diff = val - original[index];
+        original[index] = val;
+        for(int i=index+1; i<fenwickTree.length; i+=i&(-i)) {
+            fenwickTree[i] += diff;
+        }
+    }
+
+    public int sumRange(int i, int j) {
+        return getSum(j) - getSum(i-1);
+    }
+    
+    private int getSum(int index) {
+        int sum = 0;
+        for(int i=index+1; i>0; i-=i&(-i)) {
+            sum += fenwickTree[i];
+        }
+        return sum;
+    }
+}
+
+
+// Your NumArray object will be instantiated and called as such:
+// NumArray numArray = new NumArray(nums);
+// numArray.sumRange(0, 1);
+// numArray.update(1, 10);
+// numArray.sumRange(1, 2);
+
+// Segment Tree
+/*
+public class NumArray {
     private SegmentTreeNode root;
 
     public NumArray(int[] nums) {
@@ -67,10 +107,4 @@ public class NumArray {
         }
     }
 }
-
-
-// Your NumArray object will be instantiated and called as such:
-// NumArray numArray = new NumArray(nums);
-// numArray.sumRange(0, 1);
-// numArray.update(1, 10);
-// numArray.sumRange(1, 2);
+*/
