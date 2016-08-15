@@ -1,6 +1,8 @@
+// Maximum Subarray Problem (Kadane Algorithm)
+// Find the contiguous subarray within a one-dimensional array of numbers which has the largest sum.
 public class Kadane {
     public static void main(String[] args) {
-        int[] nums = new int[]{-2,-3,4,-1,-2,1,5,-3};
+        int[] nums = new int[]{-2, -3, 4, -1, -2, 1, 5, -3};
         kadaneAlgorithm(nums);
     }
 
