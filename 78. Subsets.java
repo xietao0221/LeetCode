@@ -1,4 +1,25 @@
+// Iterative Approach
+public class Solution {
+    public List<List<Integer>> subsets(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>());     // empty list
+        
+        // for each old list, add a new element
+        for(int i=0; i<nums.length; i++) {
+            int size = res.size();
+            for(int j=0; j<size; j++) {
+                List<Integer> newList = new ArrayList<>(res.get(j));
+                newList.add(nums[i]);
+                res.add(newList);
+            }
+        }
+        return res;
+    }
+}
+
 // Recursive Approach
+/*
 public class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         Arrays.sort(nums);
@@ -15,27 +36,6 @@ public class Solution {
             subsetsHelper(nums, i + 1, res, tmpRes);
             tmpRes.remove(tmpRes.size() - 1);
         }
-    }
-}
-
-// Iterative Approach
-/*
-public class Solution {
-    public List<List<Integer>> subsets(int[] nums) {
-        Arrays.sort(nums);
-        List<List<Integer>> res = new ArrayList<>();
-        // empty list
-        res.add(new ArrayList<>());
-        // for each old list, add a new element
-        for(int i=0; i<nums.length; i++) {
-            int size = res.size();
-            for(int j=0; j<size; j++) {
-                List<Integer> newList = new ArrayList<>(res.get(j));
-                newList.add(nums[i]);
-                res.add(newList);
-            }
-        }
-        return res;
     }
 }
 */
