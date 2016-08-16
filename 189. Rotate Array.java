@@ -9,10 +9,8 @@ public class Solution {
     private void reverseArray(int[] nums, int left, int right) {
         while(left < right) {
             int tmp = nums[left];
-            nums[left] = nums[right];
-            nums[right] = tmp;
-            left++;
-            right--;
+            nums[left++] = nums[right];
+            nums[right--] = tmp;
         }
     }
 }
