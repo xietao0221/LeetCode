@@ -1,43 +1,31 @@
 public class Solution {
     public int ladderLength(String beginWord, String endWord, Set<String> wordList) {
-        Set<String> beginSet = new HashSet<>(), endSet = new HashSet<>(), visited = new HashSet<>();
-        int strLen = beginWord.length(), result = 1;
+        Set<String> beginSet = new HashSet<>(), endSet = new HashSet<>();
         beginSet.add(beginWord);
         endSet.add(endWord);
-        
-        while(!beginSet.isEmpty() && !endSet.isEmpty()) {
-            // always move one step from the set whose size is smaller
-            if(beginSet.size() > endSet.size()) {
-                Set<String> temp = beginSet;
-                beginSet = endSet;
-                endSet = temp;
-            }
-            
-            Set<String> nextBeginSet = new HashSet<>();
-            for(String word: beginSet) {
-                // for each word in the begin set, for each position, change to another character
-                // and check if it is included in the dictionary
+        return buildGraph(wordList, beginSet, endSet, false, 1);
+    }
+
+    private int buildGraph(Set<String> dict, Set<String> beginSet, Set<String> endSet, boolean flip, int count) {
+        if (beginSet.isEmpty()) return 0;
+        if (beginSet.size() > endSet.size()) return buildGraph(dict, endSet, beginSet, !flip, count);
+
+        dict.removeAll(beginSet);
+        dict.removeAll(endSet);
+        Set<String> nextBeginSet = new HashSet<>();
+
+        for (String word : beginSet) {
+            for (int i=0; i<word.length(); i++) {
                 char[] wordArray = word.toCharArray();
-                for(int i=0; i<strLen; i++) {
-                    for(char c='a'; c<='z'; c++) {
-                        // modify and resotre
-                        char oldChar = wordArray[i];
-                        wordArray[i] = c;
-                        String target = new String(wordArray);
-                        wordArray[i] = oldChar;     // restore it
-                        
-                        if(endSet.contains(target)) return result + 1;
-                        if(wordList.contains(target) && !visited.contains(target)) {
-                            // don't need to backtracking, because BFS always has the shortest result
-                            visited.add(target);
-                            nextBeginSet.add(target);
-                        }
-                    }
+                for (char c='a'; c<='z'; c++) {
+                    wordArray[i] = c;
+                    String target = new String(wordArray);
+
+                    if (endSet.contains(target)) return count + 1;
+                    if (dict.contains(target)) nextBeginSet.add(target);
                 }
             }
-            beginSet = nextBeginSet;
-            result++;
         }
-        return 0;
+        return buildGraph(dict, endSet, nextBeginSet, !flip, count + 1);
     }
 }
