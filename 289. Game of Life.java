@@ -1,14 +1,14 @@
 /*
-live & live neighbor <2: die
-live & live neighbor 2or3: live
-live & live neighbor >3: die
+live & live neighbor < 2: die
+live & live neighbor 2 or 3: live
+live & live neighbor > 3: die
 dead & live neighbor 3: live
 */
 public class Solution {
-    // dead->dead: 0; 
-    // live->live: 1;
-    // dead->live: 2;
-    // live->dead: 3;
+    // dead -> dead: 0; 
+    // live -> live: 1;
+    // dead -> live: 2;
+    // live -> dead: 3;
     public void gameOfLife(int[][] board) {
         for(int i=0; i<board.length; i++) {
             for(int j=0; j<board[0].length; j++) {
