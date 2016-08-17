@@ -1,20 +1,24 @@
 // Moore’s Voting Algorithm: http://www.geeksforgeeks.org/majority-element/
 public class Solution {
     public int majorityElement(int[] nums) {
-        int candidateIndex = 0, count = 1;
-        for(int i = 1; i < nums.length; i++) {
+        int candidate = nums[0], count = 0;
+        for(int num: nums) {
             if(count == 0) {
-                candidateIndex = i;
+                candidate = num;
                 count++;
             } else {
-                if(nums[i] == nums[candidateIndex]) count++;
+                if(num == candidate) count++;
                 else count--;
             }
         }
         
-        // based on the statement that the majority element is always exist
-        // so we do not need to use one more loop to check if this candidate
-        // is valid or not.
-        return nums[candidateIndex];
+        count = 0;
+        for(int num: nums) {
+            if(num == candidate) count++;
+        }
+        
+        // in this question, don't need to do this check, but it is the standard process
+        if(count > nums.length / 2) return candidate;
+        else return -1;
     }
 }
