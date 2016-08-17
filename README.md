@@ -37,11 +37,16 @@ formula: (min(height[right], height[left]) - height[bottom]) * (right - left - 1
 - when height is increasing, push into the stack and increase the index
 - when height is increasing, pop out an index as the top index, and peek an index as the left bar to calculate the width, and then do the calculation; after calculation, do not increase the i, because we need to compare this i with the previous ones to do the calculation iteratively.
 
-Two Pointers: (26, 27)
+Two Pointers: (26, 27， 209)
 (26) in sorted array: use two pointers from left to right, if they are the same, right++, otherwise, change the value of slow to the value of right, and then right++
 (27) in unsorted array: we want to let all element whose value is ‘val’ on the left, and ’non-val’ on the right; use two pointers from both sides; first do while loop when meet the requirement, otherwise, swap them.
+(209) in unsorted array
 
-Binary Search and Search in Rotated Array: (4, 153, 154, 33, 81, 34, 278, 35, 287)
+- set left and right to 0, create a localSum
+- for each num in nums, localSum is the sum from left to right
+- if localSum >= target, calculate the length of (right - left), and then substract the nums[left] from localSum, increase the left
+
+Binary Search and Search in Rotated Array: (4, 153, 154, 33, 81, 34, 278, 35, 287, 162)
 article: https://discuss.leetcode.com/topic/5891/clean-iterative-solution-with-two-binary-searches-with-explanation
 if the nums is sorted, we could do binary search
 (4) divide each array into two parts, and compare A[i-1], B[j] and B[j-1], A[i].
@@ -81,6 +86,14 @@ if the nums is sorted, we could do binary search
 - count the number which is <= middle
 - if condition(1): if(count <= middle) left = middle + 1
 - if condition(2): if(count > middle) right = middle
+
+(162) Find Peak
+
+- left = 0, right = nums.length - 1
+- while loop condition: while(left < right)
+- middle = left + (right - left) / 2
+- if condition(1): if(nums[middle] < nums[middle + 1]) left = middle + 1
+- if condition(2): if(nums[middle] >= nums[middle + 1]) right = middle
 
 Permutation: (31, 46, 47, 60)
 (31) next permutation:
@@ -153,3 +166,53 @@ Iterative
 - notes: if nums contains duplicates, we can only add the duplicates from the previous res.size() rather than 0
 
 Recursive: backtracking. if nums contains duplicates, use (i>pos && nums[i] == nums[i-1]) continue to avoid duplicates
+
+Best Time to Buy and Sell Stock: (121, 122, 123, 188)
+(121, 123, 188) at most K transactions, DP Solution
+
+- dp[i][j] represents the max profit ending at transaction i and day j
+- outer loop is for transactions, inner loop is for days; the first row and first col are all 0s.
+- condition(1): no transaction at day j: dp[i][j-1]
+- condition(2): sell at day j: (prices[j] - prices[m]) + dp[i-1][m] = prices[j] + (dp[i-1][m] - prices[m]) = prices[j] + diffMax (where m is from 0 to j-1)
+- notice: if K >= prices.length / 2, it means we can make as many transactions as we want, use Greedy approach.
+
+(122) as many transactions as you want, Greedy Solution
+
+- Solution(1): iterate prices from 0 to prices.length-1, if the current price larger than the previous one, add this difference to the result
+- Solution(2): in the while loop, first find the first bottom point which is buy-day, and then find the first peak point which is sell-day, and then calculate the difference which is the profit. Keep searching and calculating until the end.
+
+Word Ladder: (126, 127)
+
+- Two Ends BFS Approach
+- create begin/end set and put begin/end word in it respectively; create a hash map to save the path
+- if begin.size() > end.size(), flip these two sets; always search words from begin set
+- remove begin/end word from dictionary(similar to visited feature), to avoid cycle
+- for each words in begin set, change every position and check if the new words is in the end set or dictionary: if it is, put the pair into map.
+- notes: if words in the begin set occurs in the end set also, return immediately
+
+Contiguous/Consecutive Subarray: (128, 152)
+(128) unsorted array. use hash set to save all nums. For each num in nums, search if the hash set contains num-- or num++, record the local max.
+(152) because there could be negative integer in the array, we should save both local max and local min.
+
+Moore’s Voting Algorithm: (169, 229)
+
+- make candidate equals to nums[0], it’s count 0
+- search from 0, if count reach 0, change candidate to the current index, and increase the count; otherwise if the current is candidate, increase the count, otherwise decrease it.
+- if you want the count > n/2, use one candidate; if you want the count > n/3, use two candidates
+
+Reverse Array: (151, 186, 189)
+(151, 186) reverse the whole string and then reverse each word
+(189) reverse the whole array; reverse the first k element; reverse the rest
+
+Contain Duplicates: (217, 219, 220)
+(217) use hash set to check if the new element is in the set
+(219) use hash set to save up to k elements and check if the new element is in the set
+(220) use tree set to save up to k elements, and use floor()/celing() to check if the tree set has an element whose difference between this one is up to t. floor() is the greatest number less than or equals to the given one; ceiling() is the smallest number greater than or equals to the given one.
+
+Shortest Word Distance: (243, 244, 245)
+(244) use hash map to save all words and their position
+(243, 245)
+
+- two pointers represent two words’ index
+- when word1 is found: if two words are not the same, distance is (i-index2), otherwise distance is (i-index1)
+- when word2 is found and two words are not the same, distance is (i-index1)
