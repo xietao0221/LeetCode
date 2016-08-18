@@ -37,7 +37,7 @@ formula: (min(height[right], height[left]) - height[bottom]) * (right - left - 1
 - when height is increasing, push into the stack and increase the index
 - when height is increasing, pop out an index as the top index, and peek an index as the left bar to calculate the width, and then do the calculation; after calculation, do not increase the i, because we need to compare this i with the previous ones to do the calculation iteratively.
 
-Two Pointers: (26, 27， 209)
+Two Pointers: (26, 27， 209, 3, 76)
 (26) in sorted array: use two pointers from left to right, if they are the same, right++, otherwise, change the value of slow to the value of right, and then right++
 (27) in unsorted array: we want to let all element whose value is ‘val’ on the left, and ’non-val’ on the right; use two pointers from both sides; first do while loop when meet the requirement, otherwise, swap them.
 (209) in unsorted array
@@ -45,8 +45,9 @@ Two Pointers: (26, 27， 209)
 - set left and right to 0, create a localSum
 - for each num in nums, localSum is the sum from left to right
 - if localSum >= target, calculate the length of (right - left), and then substract the nums[left] from localSum, increase the left
+- notes: this question could also be solved using binary search for sums array.
 
-Binary Search and Search in Rotated Array: (4, 153, 154, 33, 81, 34, 278, 35, 287, 162)
+Binary Search and Search in Rotated Array: (4, 153, 154, 33, 81, 34, 278, 35, 287, 162, 209)
 article: https://discuss.leetcode.com/topic/5891/clean-iterative-solution-with-two-binary-searches-with-explanation
 if the nums is sorted, we could do binary search
 (4) divide each array into two parts, and compare A[i-1], B[j] and B[j-1], A[i].
@@ -70,7 +71,7 @@ if the nums is sorted, we could do binary search
 - return nums[left] == target
 
 (34, 278) Search for a range, two binary search: one for left-round middle, and the other for right-round middle, and they are symmetrical
-(35) Search Insert Position: different conditions
+(35, 209) Search Insert Position: different conditions
 
 - while loop condition: while(left <= right)
 - middle = left + (right - left) / 2
@@ -130,6 +131,21 @@ Palindrome: (266, 267, 9, 125, 5, 131, 214, 132, 336)
 
 - use hash map to save all strings and its position
 - divide each string into two parts, the delimiter is from 0 to n-1. if the part1 is palindrome, check if map contains the reverse of part2; if the part2 is palindrome, check if map contains the reverse of part1
+
+Sliding Window: (76, 30)
+(76) the element is character, could use int[] to substitute hash set or hash map
+
+- save all character’s count into charSet
+- create a sliding window which has two ends: begin and end
+- move end from 0 to n-1: if meet a valid character, count--; when the count reach 0, which means all valid characters are included in the window, record the window size and substring, and then move left bound until count greater than 0, which means one valid characters is out of window; And then you move end to find this character
+
+(30) the element is words, cannot use int[], have to use hash map; in the window, you cannot include invalid word
+
+- save all words’ count into map
+- there are words[0].length rounds, each round is like (76), but the length of index increasing is words[0].length
+- because you cannot include invalid word in window, so if the current target is invalid, you immediately move left bound to the right bound, clear all variables and search again
+- if(currMap.get(target) <= map.get(target)) count++, which means you includes one valid word in window; otherwise, you includes a duplicate in window, you need to shrink the left bound until this duplicate removed
+- when count == size, you output the result and move left bound to the right bound
 
 Read4: (157, 158)
 the difference between call once and call multiple times is: before call read4(), we should check if indexTmpBuf is 0, if so we have to call read4(), otherwise we do not need to, we just copy from tmpBuf to buf
@@ -216,3 +232,14 @@ Shortest Word Distance: (243, 244, 245)
 - two pointers represent two words’ index
 - when word1 is found: if two words are not the same, distance is (i-index2), otherwise distance is (i-index1)
 - when word2 is found and two words are not the same, distance is (i-index1)
+
+Wiggle Sort: (280, 324)
+(280) allow adjacent numbers to be the same: one pass solution, from left to right, based on the property at position odd/even, swap with the one on its right.
+(324) don’t allow adjacent number to be the same: sort it; choose one from the middle and another from the end; and then choose one from the middle-1, and another from the end-1, and on and on
+
+Soduku: (36, 37)
+(36) for i from 0 to 9, for j from 0 to 9: row: board[i][j], col: board[j][i], cube: board[3*(i/3)+j/3][3*(i%3)+j%3]
+(37) check the given row and col’s validation: for i from 0 to 9: row: board[row][i], col: board[i][col], cube: board[3*(row/3)+i/3][3*(col/3)+i%3]
+
+- Subarray, Substring(contiguous array), Subsequence(could delete some characters)
+- use hash map or hash set to save Point Class: (1) override equals() and hashcode() methods in Point Class (2) define MyPoint Class to composite Point Class and define equals() and hashcode() (3) inheritate Point using ‘class MyPoint extends Point {}’ and define equals() and hashcode()

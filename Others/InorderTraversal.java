@@ -7,9 +7,9 @@ static void inorderTraversalIterative(TreeNode root) {
             stack.push(curr);
             curr = curr.left;
         } else {
-            TreeNode newNode = stack.pop();
-            System.out.println(newNode);
-            curr = newNode.right;
+            curr = stack.pop();
+            System.out.println(curr);
+            curr = curr.right;
         }
     }
 }
