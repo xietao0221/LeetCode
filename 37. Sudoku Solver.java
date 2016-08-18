@@ -1,3 +1,4 @@
+// Recursive & Backtracking
 public class Solution {
     public void solveSudoku(char[][] board) {
         solveSudokuHelper(board);
@@ -11,7 +12,7 @@ public class Solution {
                     if(isValid(board, i, j, k)) {
                         board[i][j] = k;
                         if(solveSudokuHelper(board)) return true;
-                        else board[i][j] = '.';
+                        else board[i][j] = '.';     // backtracking
                     }
                 }
                 return false;
