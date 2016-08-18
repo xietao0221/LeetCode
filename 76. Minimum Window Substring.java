@@ -23,7 +23,7 @@ public class Solution {
                     minWindowSize = end - begin;
                 }
 
-                // move left bound of window, put characters out of the window
+                // move left bound of window, until put one valid characters out of the window
                 // if the char of t occurs, the x++ could be 0; otherwise is negative
                 if(++charSet[s.charAt(begin++)] > 0) count++;
             }
