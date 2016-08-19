@@ -12,6 +12,7 @@ public class Solution {
             if(map.containsKey(key)) {
                 if(!map.get(key).equals(value)) return false;
             } else {
+                // this value is mapped before, it is invalid
                 if(!set.add(value)) return false;
                 map.put(key, value);
             }
