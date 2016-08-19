@@ -1,6 +1,6 @@
 public class TwoSum {
-    private HashMap<Integer, Integer> map = new HashMap<>();
-    private ArrayList<Integer> list = new ArrayList<>();
+    private Map<Integer, Integer> map = new HashMap<>();
+    private List<Integer> list = new ArrayList<>();
     
     // Add the number to an internal data structure.
 	public void add(int number) {
@@ -14,7 +14,7 @@ public class TwoSum {
 
     // Find if there exists any pair of numbers which sum is equal to the value.
 	public boolean find(int value) {
-	    for(int i=0; i<list.size(); i++) {
+	    for(int i = 0; i < list.size(); i++) {
 	        int n1 = list.get(i);
 	        int n2 = value - n1;
 	        if((n1 == n2 && map.get(n1) > 1) || (n1 != n2 && map.containsKey(n2))) {
