@@ -13,7 +13,7 @@ public class RandomizedSet {
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
         if(map.containsKey(val)) return false;
-        map.put(val, nums.size());
+        map.put(val, nums.size());      // this size is the size before insert, so it is the position of new val
         nums.add(val);
         return true;
     }
