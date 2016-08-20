@@ -7,6 +7,5 @@ public class Solution {
         while(anchor < nums.length) {
             nums[anchor++] = 0;
         }
-        
     }
 }

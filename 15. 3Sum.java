@@ -4,14 +4,14 @@ public class Solution {
         if(nums.length < 3) return new ArrayList<>();
         Arrays.sort(nums);
         List<List<Integer>> list = new ArrayList<>();
-        for(int i=0; i<nums.length-2; i++) {
-            if(i>0 && nums[i] == nums[i-1]) continue;                               //avoid duplicate
-            int left = i+1, right = nums.length-1, target = -nums[i];
+        for(int i = 0; i < nums.length - 2; i++) {
+            if(i > 0 && nums[i] == nums[i-1]) continue;                                 //avoid duplicate
+            int left = i + 1, right = nums.length - 1, target = -nums[i];
             while(left < right) {
                 if((nums[left] + nums[right]) == target) {
                     list.add(new ArrayList<>(Arrays.asList(nums[i], nums[left], nums[right])));
-                    while(left < right && nums[left] == nums[left+1]) left++;       //avoid duplicate
-                    while(left < right && nums[right] == nums[right-1]) right--;    //avoid duplicate
+                    while(left < right && nums[left] == nums[left + 1]) left++;         //avoid duplicate
+                    while(left < right && nums[right] == nums[right - 1]) right--;      //avoid duplicate
                     left++;
                     right--;
                 } else if(nums[left] + nums[right] < target) {
@@ -45,7 +45,7 @@ public class Solution {
             return;
         }
         
-        for(int i=pos; i<nums.length && (sum + nums[i] <= 0); i++) {
+        for(int i = pos; i < nums.length && (sum + nums[i] <= 0); i++) {
             if(i > pos && nums[i] == nums[i-1]) continue;
             tmpRes.add(nums[i]);
             threeSumHelper(nums, i + 1, count - 1, sum + nums[i]);

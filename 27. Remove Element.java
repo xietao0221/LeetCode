@@ -6,9 +6,7 @@ public class Solution {
         int left = 0, right = nums.length - 1, count = 0;
         while(left <= right) {
             // ensure the value of left is non-val
-            while(left <= right && nums[left] != val) {
-                left++;
-            }
+            while(left <= right && nums[left] != val) left++;
             
             // ensure the value of right is val
             while(left <= right && nums[right] == val) {
