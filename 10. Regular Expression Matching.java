@@ -31,6 +31,7 @@ public class Solution {
                     
                     // * matches >= 1 of preceding element
                     // we need to compare j - 2 with i - 1, because * only match the preceding element
+                    // this i can be removed
                     if(pArray[j-2] == sArray[i-1] || pArray[j-2] == '.') {
                         dp[i][j] |= dp[i-1][j];     // don't forget to 'or' itself
                     }
