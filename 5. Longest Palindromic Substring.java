@@ -1,12 +1,13 @@
 public class Solution {
     private int max = 0, start = 0, end = 0;
+    
     public String longestPalindrome(String s) {
         char[] sArray = s.toCharArray();
-        for(int i=0; i<sArray.length-1; i++) {
+        for(int i = 0; i < sArray.length - 1; i++) {
             longestPalindromeHelper(sArray, i, i);
-            longestPalindromeHelper(sArray, i, i+1);
+            longestPalindromeHelper(sArray, i, i + 1);
         }
-        return s.substring(start, end+1);
+        return s.substring(start, end + 1);
     }
     
     private void longestPalindromeHelper(char[] sArray, int left, int right) {
@@ -14,6 +15,7 @@ public class Solution {
             left--;
             right++;
         }
+        
         if(right - left - 1 > max) {
             max = right - left - 1;
             start = left + 1;
