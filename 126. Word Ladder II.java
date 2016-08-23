@@ -23,9 +23,9 @@ public class Solution {
         Set<String> nextBeginSet = new HashSet<>();
 
         for (String word : beginSet) {
-            for (int i=0; i<word.length(); i++) {
+            for (int i = 0; i < word.length(); i++) {
                 char[] wordArray = word.toCharArray();
-                for (char c='a'; c<='z'; c++) {
+                for (char c = 'a'; c <= 'z'; c++) {
                     wordArray[i] = c;
                     String target = new String(wordArray);
 
