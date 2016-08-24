@@ -1,3 +1,4 @@
+// because you could add string in front of the original one, so set the anchor at the end of string
 public class Solution {
     public String shortestPalindrome(String s) {
         char[] array = s.toCharArray();
