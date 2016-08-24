@@ -59,14 +59,9 @@ public class Solution {
     }
 
     private int operation(int num1, int num2, char op) {
-        if(op == '+') {
-            return num1 + num2;
-        } else if(op == '-') {
-            return num1 - num2;
-        } else if(op == '*') {
-            return num1 * num2;
-        } else {
-            return num1 / num2;
-        }
+        if(op == '+') return num1 + num2;
+        else if(op == '-') return num1 - num2;
+        else if(op == '*') return num1 * num2;
+        else return num1 / num2;
     }
 }
