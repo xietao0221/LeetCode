@@ -14,7 +14,7 @@ public class Solution {
         code.append('a');
         int diff = word.charAt(0) - 'a';
         for(int i = 1; i < word.length(); i++) {
-            code.append((word.charAt(i) + 26 - diff) % 26);
+            code.append((word.charAt(i) + 26 - diff) % 26);     // important
         }
         return code.toString();
     }

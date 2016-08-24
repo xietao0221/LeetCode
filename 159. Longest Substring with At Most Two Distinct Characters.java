@@ -10,7 +10,7 @@ public class Solution {
             
             // when more than two distinct char in the window, we should shrink the window
             while(count > 2) {
-                // we decrease the count when a char is totally removed out of the window(before -- the value is 1)
+                // we decrease the count when a char is totally removed out of the window(after -- the value is 0)
                 if(--charSet[s.charAt(left++)] == 0) count--;
             }
             
