@@ -45,7 +45,7 @@ public class Solution {
             } else if (ch == ']') {
                 // if possible, add a new num to the curr
                 String num = s.substring(left, right);
-                if (!num.isEmpty()) curr.add(new NestedInteger(Integer.valueOf(num)));
+                if (num.length() != 0) curr.add(new NestedInteger(Integer.valueOf(num)));
                 
                 // pop out from stack, add curr to it, and make it as curr
                 if (!stack.isEmpty()) {

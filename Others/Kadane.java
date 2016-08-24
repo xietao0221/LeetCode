@@ -1,26 +1,25 @@
 // Maximum Subarray Problem (Kadane Algorithm)
-// Find the contiguous subarray within a one-dimensional array of numbers which has the largest sum.
-public class Kadane {
-    public static void main(String[] args) {
-        int[] nums = new int[]{-2, -3, 4, -1, -2, 1, 5, -3};
-        kadaneAlgorithm(nums);
-    }
-
-    public static void kadaneAlgorithm(int[] nums) {
-        int[] result = new int[3];       // start, end, sum
-        int tmpStart = 0, tmpSum = 0;
-        for(int i=0; i<nums.length; i++) {
-            tmpSum += nums[i];
-            if(tmpSum < 0) {
-                tmpSum = 0;
-                tmpStart = i + 1;
+// Find the contiguous subarray within a one-dimensional array of numbers which has the largest sum. Could contain negative integers.
+public class Solution {
+    public void kadaneAlgorithm(int[] nums) {
+        int[] globalMax = new int[3];       // start, end, sum
+        int localMaxStart = 0, localMax = nums[0];
+        for(int i = 1; i < nums.length; i++) {
+            // find the local maximum
+            // localMax = Math.max(localMax + nums[i], nums[i]);
+            if(nums[i] >= localMax + nums[i]) {
+                localMax = nums[i];
+                localMaxStart = i;
             }
-            if(tmpSum > result[2]) {
-                result[0] = tmpStart;
-                result[1] = i;
-                result[2] = tmpSum;
+
+            // find the global maximum
+            // globalMax = Math.max(globalMax, localMax);
+            if(localMax > globalMax[2]) {
+                globalMax[0] = localMaxStart;
+                globalMax[1] = i;
+                globalMax[2] = localMax;
             }
         }
-        System.out.println("Start: " + result[0] + ", End: " + result[1] + ", Sum: " + result[2]);
+        System.out.println("Start: " + globalMax[0] + ", End: " + globalMax[1] + ", Sum: " + globalMax[2]);
     }
 }
