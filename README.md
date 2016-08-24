@@ -37,7 +37,7 @@ formula: (min(height[right], height[left]) - height[bottom]) * (right - left - 1
 - when height is increasing, push into the stack and increase the index
 - when height is increasing, pop out an index as the top index, and peek an index as the left bar to calculate the width, and then do the calculation; after calculation, do not increase the i, because we need to compare this i with the previous ones to do the calculation iteratively.
 
-Two Pointers: (26, 27， 209, 3, 76)
+Two Pointers: (26, 27， 209, 3, 76, 349, 350)
 (26) in sorted array: use two pointers from left to right, if they are the same, right++, otherwise, change the value of slow to the value of right, and then right++
 (27) in unsorted array: we want to let all element whose value is ‘val’ on the left, and ’non-val’ on the right; use two pointers from both sides; first do while loop when meet the requirement, otherwise, swap them.
 (209) in unsorted array
@@ -132,7 +132,7 @@ Palindrome: (266, 267, 9, 125, 5, 131, 214, 132, 336)
 - use hash map to save all strings and its position
 - divide each string into two parts, the delimiter is from 0 to n-1. if the part1 is palindrome, check if map contains the reverse of part2; if the part2 is palindrome, check if map contains the reverse of part1
 
-Sliding Window: (76, 30)
+Sliding Window: (76, 30, 3, 159, 340)
 (76) the element is character, could use int[] to substitute hash set or hash map
 
 - save all character’s count into charSet
@@ -146,6 +146,12 @@ Sliding Window: (76, 30)
 - because you cannot include invalid word in window, so if the current target is invalid, you immediately move left bound to the right bound, clear all variables and search again
 - if(currMap.get(target) <= map.get(target)) count++, which means you includes one valid word in window; otherwise, you includes a duplicate in window, you need to shrink the left bound until this duplicate removed
 - when count == size, you output the result and move left bound to the right bound
+
+Word Pattern: (205, 290)
+(205) two solutions
+
+- use hash map and hash set: if map contains the key, we check if values are the same; otherwise, we put the (key, value) pair into map, and then check if the set contains value already, if so, return false, because this value is mapped before
+- use int[]: create an array whose length is 256 * 2, the first part is for string1, the second is for string2; positions[tempS] and positions[tempT + 256] should be equal
 
 Read4: (157, 158)
 the difference between call once and call multiple times is: before call read4(), we should check if indexTmpBuf is 0, if so we have to call read4(), otherwise we do not need to, we just copy from tmpBuf to buf
@@ -240,6 +246,80 @@ Wiggle Sort: (280, 324)
 Soduku: (36, 37)
 (36) for i from 0 to 9, for j from 0 to 9: row: board[i][j], col: board[j][i], cube: board[3*(i/3)+j/3][3*(i%3)+j%3]
 (37) check the given row and col’s validation: for i from 0 to 9: row: board[row][i], col: board[i][col], cube: board[3*(row/3)+i/3][3*(col/3)+i%3]
+
+Merge Sort Linkedlist: (21, 148, 23)
+(21) Merge two sorted linkedlist:
+Recursive: always return the smaller one, and its next is recursive function’s return
+Iterative: create a dummy node, and the next of this node is always linked to the smaller one
+(148) Merge Sort for LinkedList
+use slow and fast node to find the middle point: if the total is odd, the second part is one larger than the first part
+cut the linkedlist from the middle
+use (21)’s approach to merge this two linked list
+(23) use PriorityQueue to do the sorting
+
+Sorting LinkedList: (147, 148)
+
+Reverse Nodes in K-Group: (24, 25)
+(25) begin is the node which is on the left of reverse list, end is the node which is on the right of reverse list; use insertion approach to insert target between ‘begin’ and ’head'
+
+Covert sorted array to BST: (108, 109)
+(108) for array: like binary search, find the middle, and new TreeNode(nums[middle]), and then root.left = func(), root.right = func()
+(109) for linkedlist: because we cannot anchor the middle, so we call recursive func first, and then build the new root, and then call another recursive func
+
+Dynamic Programming: (44, 10, 72, 91)
+(44) Wildcard Matching
+
+- replace multiple * with single *
+- create DP matrix whose dimension is one larger than the length of s and p respectively
+- deal with top-left cell: dp[0][0] = true
+- deal with the first row: if p[0] == ‘*’, dp[0][1] = true; otherwise, dp[0][j] = false
+- deal with the first col: dp[i][0] = false
+- iterate the rest: if s[i-1] == p[j-1] or p[j-1] == ‘?’, dp[i][j] = dp[i-1][j-1]; else if p[j-1] == ‘*’, which means this j could be removed(matches 0 character), or this i could be removed(matches any sequences), dp[i][j] = dp[i][j-1] || dp[i-1][j]
+
+(10) Regular Expression Matching
+
+- create DP matrix whose dimension is one larger than the length of s and p respectively
+- deal with the top-left cell: dp[0][0] = true
+- deal with the first row: if p[0] == ‘*’, return false
+- deal with the first col: dp[i][0] = false
+- iterate the rest: if s[i-1] == p[j-1] or p[j-1] == ‘.’, dp[i][j] = dp[i-1][j-1]; else if p[j-1] == ‘*’: (1) dp[i][j] |= dp[i][j-2], which means * matches 0 of preceding character, these two characters can be removed, (2) if s[i-1] == p[j-2] || p[j-2] == ‘.’, dp[i][j] |= dp[i-1][j], which means * matches >= 1 of preceding characters, this i can be removed
+
+(72) Edit Distance
+
+- create the dp matrix
+- setup the first row: dp[0][j] = j
+- setup the first col: dp[i][0] = i
+- condition 1: if w1[i-1] == w2[j-1], dp[i][j] = dp[i-1][j-1]
+- condition 2: if w1[i-1] != w2[j-1], dp[i][j] = min(dp[i][j-1], dp[i-1][j], dp[i-1][j-1]) + 1
+
+(91): Decode Ways: from n-1 to 0: check s.substring(i, i+2) <= 26, if so, dp[i] = dp[i+1] + dp[i+2], otherwise, dp[i] = dp[i+1]
+
+Calculator: (227, 224, General)
+(227) contains + - * /
+
+- create stack<Integer>, char sign, and int num; use stack to save unit like “+5”, “+4*5*6”, “-6/3"
+- if the current character is digit: cumulatively add it to the num
+- if the current character is “sign” or it is the last position in the string(now, nothing to do with the current “sign”): if the previous sign is “+” or “-“, push this sign and current num into stack, update the res; otherwise, pop out from stack, subtract this value from res, and push this sign, value which is poped out and the current num into stack, update the res;
+- notes: when you meet a sign, you update the stack and res, and nothing to do with the current sign; you always think there is no * and / in the string, if you are wrong, you subtract the previous value, update the res, and then re-calculate the value using right previous sign.
+
+(224) contains + - ( )
+
+- create Stack<Integer> ops which represents the previous sign
+- if it is digit: cumulatively add it to the num
+- if it is + or -: update res += prevSign * num, and then update prevSign based on the stack.peek(), and clear the num
+- if it is (: push prevSign
+- if it is ): pop out
+- notes: if there is some - before (, we need to change all signs in the ()
+
+(General) contains + - * / ( ) negative integer
+
+- create stack<Integer> nums and Stack<Character> ops
+- if it is digit: use while loop to get the complete num; and then if the previous sign is * or /, do one calculation, otherwise push this new number into nums
+- if it is + or -: it is safe to do one calculation, so do it and push new sign into ops
+- if it is * or /: push it into ops
+- if it is (: push it into ops
+- if it si ): do as many calculations as possible until the previous sign is ( and pop out (
+- finally, pop out two stacks and do the rest of calculation, and then pop out the last num which is the result
 
 - Subarray, Substring(contiguous array), Subsequence(could delete some characters)
 - use hash map or hash set to save Point Class: (1) override equals() and hashcode() methods in Point Class (2) define MyPoint Class to composite Point Class and define equals() and hashcode() (3) inheritate Point using ‘class MyPoint extends Point {}’ and define equals() and hashcode()
