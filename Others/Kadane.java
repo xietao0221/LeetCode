@@ -7,7 +7,7 @@ public class Solution {
         for(int i = 1; i < nums.length; i++) {
             // find the local maximum
             // localMax = Math.max(localMax + nums[i], nums[i]);
-            if(nums[i] >= localMax + nums[i]) {
+            if(nums[i] > localMax + nums[i]) {
                 localMax = nums[i];
                 localMaxStart = i;
             }
