@@ -29,6 +29,7 @@ public class FenwickTree {
     public void updateValue(int index, int value) {
         int diff = value - originalNums[index];
         originalNums[index] = value;
+        // the index of fenwick tree is one larger than the index of original array
         for(int i = index + 1; i < fenwickTree.length; i += i & (-i)) {
             fenwickTree[i] += diff;
         }
@@ -37,6 +38,7 @@ public class FenwickTree {
     // get the sum of (0, index) of original array
     public int getSum(int index) {
         int sum = 0;
+        // the index of fenwick tree is one larger than the index of original array
         for(int i = index + 1; i > 0; i -= i & (-i)) {
             sum += fenwickTree[i];
         }
