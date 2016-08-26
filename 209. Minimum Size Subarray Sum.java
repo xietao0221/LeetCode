@@ -1,4 +1,4 @@
-// Two Pointers Approach O(n)
+// sliding Window Approach O(n)
 public class Solution {
     public int minSubArrayLen(int s, int[] nums) {
         if(nums == null || nums.length == 0) return 0;
