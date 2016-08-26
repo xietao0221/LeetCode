@@ -15,8 +15,10 @@ public class Solution {
                 int j = i + len - 1;
                 // k is the index of last balloon to be bursted
                 for(int k = i; k <= j; k++) {
-                    // based on the statement, nums[-1] = nums[n] = 1 even though they are not real
+                    // the default value of left/right-value is 1
                     int leftValue = 1, rightValue = 1;
+                    
+                    // if there is a valid left/right-value, change it
                     if(i != 0) leftValue = nums[i - 1];
                     if(j != nums.length - 1) rightValue = nums[j + 1];
                     
