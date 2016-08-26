@@ -20,12 +20,12 @@ public class Solution {
         
         // the index of dp is 1 larger than s or p's index, because index 0 is for the empty string
         for(int i = 1; i < m + 1; i++) {
-            for(int j = 0; j < n + 1; j++) {
-                // add j > 0 to make first column false, because pattern is empty but text is not
-                if(j > 0 && (pArray[j-1] == sArray[i-1] || pArray[j-1] == '.')) {
+            // j from 1: the first col is always false(default is false), because pattern is empty but text is not
+            for(int j = 1; j < n + 1; j++) {
+                if(pArray[j-1] == sArray[i-1] || pArray[j-1] == '.') {
                     // p and s is the same, or they can be seen as the same because of '.'
                     dp[i][j] = dp[i-1][j-1];
-                } else if(j > 0 && pArray[j-1] == '*') {
+                } else if(pArray[j-1] == '*') {
                     // * matches 0 of the preceding element, so 'a*' these two characters can be removed
                     dp[i][j] |= dp[i][j-2];
                     
