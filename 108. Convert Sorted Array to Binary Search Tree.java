@@ -7,6 +7,7 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+// binary search
 public class Solution {
     public TreeNode sortedArrayToBST(int[] nums) {
         if(nums == null || nums.length == 0) return null;
