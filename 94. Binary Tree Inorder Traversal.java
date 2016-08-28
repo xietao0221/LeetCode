@@ -10,19 +10,18 @@
 // Iterative method
 public class Solution {
     public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
+        List<Integer> res = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
-        TreeNode temp = root;
-        while(temp != null || !stack.isEmpty()) {
-            while(temp != null) {
-                stack.add(temp);
-                temp = temp.left;
+        while(root != null || !stack.isEmpty()) {
+            while(root != null) {
+                stack.add(root);
+                root = root.left;
             }
-            temp = stack.pop();
-            result.add(temp.val);
-            temp = temp.right;
+            root = stack.pop();
+            res.add(root.val);
+            root = root.right;
         }
-        return result;
+        return res;
     }
 }
 

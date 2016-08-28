@@ -40,7 +40,7 @@ public class Solution {
         TreeNode root = new TreeNode(preorder[preStart]);
         
         int target = 0;
-        for(int i=inStart; i<=inEnd; i++) {
+        for(int i = inStart; i <= inEnd; i++) {
             if(inorder[i] == preorder[preStart]) {
                 target = i;
                 break;
