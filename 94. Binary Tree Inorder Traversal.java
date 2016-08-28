@@ -13,13 +13,14 @@ public class Solution {
         List<Integer> res = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
         while(root != null || !stack.isEmpty()) {
-            while(root != null) {
+            if(root != null) {
                 stack.add(root);
                 root = root.left;
+            } else {
+                root = stack.pop();
+                res.add(root.val);
+                root = root.right;    
             }
-            root = stack.pop();
-            res.add(root.val);
-            root = root.right;
         }
         return res;
     }
