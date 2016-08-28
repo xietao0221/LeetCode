@@ -4,10 +4,13 @@ public class Solution {
         while(left < right) {
             middle = left + (right - left) / 2;
             if(nums[middle] > nums[right]) {
+                // right part is unsorted, pivot point is on the right
                 left = middle + 1;
-            } else if(nums[left] < nums[middle]) {
+            } else if(nums[middle] < nums[left]) {
+                // left part is unsorted, pivot point is on the left
                 right = middle;
             } else {
+                // nums[left] <= nums[middle] <= nums[middle] => nums[left] = nums[middle] = nums[right]
                 right--;
             }
         }
