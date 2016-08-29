@@ -1,7 +1,7 @@
 // Kadane Algorithm
 public class Solution {
     public int maxSubArray(int[] nums) {
-        // res is global maximum, decide start a new subarray or not
+        // res is global maximum, decide whether start a new subarray or not
         // maxEndingHere is local maximum, decide which subarray we will use so far
         // because local maximum is always ending at i-1, but the final result cannot always ending at i-1
         // we need to use a global var to keep the max value
