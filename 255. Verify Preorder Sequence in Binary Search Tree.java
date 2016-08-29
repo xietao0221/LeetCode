@@ -20,7 +20,7 @@ public class Solution {
     }
 }
 
-// use binary search, memory overflow
+// use binary search, result in memory overflow
 /*
 public class Solution {
     public boolean verifyPreorder(int[] preorder) {
@@ -34,7 +34,7 @@ public class Solution {
         Integer rightBranch = null;
         for(int i = left + 1; i <= right; i++) {
             if(rightBranch == null && preorder[i] > preorder[left]) rightBranch = i;
-            if(rightBranch != null && preorder[i] < rightBranch) return false;
+            if(rightBranch != null && preorder[i] < preorder[rightBranch]) return false;
         }
         
         if(rightBranch == null) {
