@@ -14,7 +14,7 @@ public class Solution {
                 int topIndex = stack.pop();
                 // stack is empty means there is not lower bars on the left, so the width is i
                 // stack is not empty means thre is some lower bars on the left, we can only calculate a partial area
-                int tmpArea = heights[topIndex] * (stack.isEmpty() ? i : i - stack.peek() - 1);
+                int tmpArea = heights[topIndex] * (stack.isEmpty() ? i : i - 1 - stack.peek());
                 res = Math.max(tmpArea, res);
                 // after calculation, don't increase the i; only increase i when push into stack
             }
