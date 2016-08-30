@@ -16,6 +16,7 @@ y F F F T
 public class Solution {
     public boolean isInterleave(String s1, String s2, String s3) {
         if(s3.length() != s1.length() + s2.length()) return false;
+        
         char[] s1Array = s1.toCharArray(), s2Array = s2.toCharArray(), s3Array = s3.toCharArray();
         // dp[i][j] represents the result ending at s3[i + j - 1]
         boolean[][] dp = new boolean[s1Array.length + 1][s2Array.length +1];
