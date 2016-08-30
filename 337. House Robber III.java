@@ -22,7 +22,10 @@ public class Solution {
         int[] left = robDFS(root.left);
         int[] right = robDFS(root.right);
         
+        // don't rob the current node: max_left(yes, no) + max_right(yes, no)
         res[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
+        
+        // rob the current node: root.val + left(no) + right(no)
         res[1] = root.val + left[0] + right[0];
         return res;
     }
