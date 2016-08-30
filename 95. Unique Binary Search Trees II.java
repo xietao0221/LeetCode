@@ -17,19 +17,22 @@ public class Solution {
     public List<TreeNode> generateTreesHelper(int start, int end) {
         List<TreeNode> res = new ArrayList<>();
         
+        // base condition
         if(start > end) {
-            res.add(null);
+            res.add(null);                      // this branch is null
             return res;
         }
         
         if(start == end) {
-            res.add(new TreeNode(start));
+            res.add(new TreeNode(start));       // this branch just have one node
             return res;
         }
         
+        // permutation and combination
         for(int i = start; i <= end; i++) {
             List<TreeNode> leftList = generateTreesHelper(start, i - 1);
             List<TreeNode> rightList = generateTreesHelper(i + 1, end);
+            
             for(TreeNode l : leftList) {
                 for(TreeNode r : rightList) {
                     TreeNode root = new TreeNode(i);
