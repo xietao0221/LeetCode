@@ -1,3 +1,4 @@
+// the health at any cell should be at least 1
 public class Solution {
     public int calculateMinimumHP(int[][] dungeon) {
         int[][] dp = new int[dungeon.length][dungeon[0].length];
@@ -8,6 +9,7 @@ public class Solution {
                     // deal with the right-bottom cell
                     dp[i][j] = 1 - dungeon[i][j] < 1 ? 1 : 1 - dungeon[i][j];
                 } else {
+                    // special case: the right most col or bottom row
                     int right = j + 1 == dp[0].length ? Integer.MAX_VALUE :
                             (dp[i][j + 1] - dungeon[i][j] < 1 ? 1 : dp[i][j + 1] - dungeon[i][j]);
                     int bottom = i + 1 == dp.length ? Integer.MAX_VALUE :

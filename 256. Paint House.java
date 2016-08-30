@@ -4,17 +4,23 @@ public class Solution {
         if(costs == null || costs.length == 0) return 0;
         
         int currMin1 = -1, currMin2 = -1;
+        
+        // for each house
         for(int i = 0; i < costs.length; i++) {
             int prevMin1 = currMin1, prevMin2 = currMin2;
             currMin1 = -1;
             currMin2 = -1;
             
+            // for each choice of color
             for(int j = 0; j < costs[0].length; j++) {
+                // choose freely when you paint the 1st house, not previous color restriction
                 if(i > 0) {
+                    // avoid same color as before
                     if(j != prevMin1) costs[i][j] += costs[i - 1][prevMin1];
                     else costs[i][j] += costs[i - 1][prevMin2];
                 }
                 
+                // get the first and second min cost value for the next round
                 if(currMin1 < 0 || costs[i][j] < costs[i][currMin1]) {
                     currMin2 = currMin1;
                     currMin1 = j;
