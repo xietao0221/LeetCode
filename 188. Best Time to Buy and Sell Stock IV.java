@@ -12,19 +12,19 @@ public class Solution {
         // it is '122. Best Time to Buy and Sell Stock II' now
         if(k >= prices.length / 2) {
             int maxProfit = 0;
-            for(int i=1; i<prices.length; i++) {
-                if(prices[i] > prices[i-1]) maxProfit += prices[i] - prices[i-1];
+            for(int i = 1; i < prices.length; i++) {
+                if(prices[i] > prices[i-1]) maxProfit += prices[i] - prices[i - 1];
             }
             return maxProfit;    
         }
         
-        int[][] dp = new int[k+1][prices.length];
+        int[][] dp = new int[k + 1][prices.length];
         // transaction 0 is always 0, and day 0 is always 0, so iterate from i=1, j=1
-        for(int i=1; i<=k; i++) {
-            int diffMax = dp[i-1][0] - prices[0];
-            for(int j=1; j<prices.length; j++) {
-                dp[i][j] = Math.max(dp[i][j-1], prices[j] + diffMax);
-                diffMax = Math.max(diffMax, dp[i-1][j] - prices[j]);
+        for(int i = 1; i <= k; i++) {
+            int diffMax = dp[i - 1][0] - prices[0];
+            for(int j = 1; j < prices.length; j++) {
+                dp[i][j] = Math.max(dp[i][j - 1], prices[j] + diffMax);
+                diffMax = Math.max(diffMax, dp[i - 1][j] - prices[j]);
             }
         }
         

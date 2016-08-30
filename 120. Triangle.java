@@ -8,10 +8,13 @@ public class Solution {
             List<Integer> prev = triangle.get(i - 1);
             List<Integer> curr = triangle.get(i);
             for(int j = 0; j < curr.size(); j++) {
-                int left = j - 1 >= 0 && j - 1 < prev.size() ? prev.get(j - 1) : Integer.MAX_VALUE;
-                int mid = j >= 0 && j < prev.size() ? prev.get(j) : Integer.MAX_VALUE;
-                int tmp = Math.min(left, mid) + curr.get(j);
+                int left = j - 1 >= 0 ? prev.get(j - 1) : Integer.MAX_VALUE;    // left bound
+                int up = j < prev.size() ? prev.get(j) : Integer.MAX_VALUE;     // right bound
+                
+                int tmp = Math.min(left, up) + curr.get(j);
                 curr.set(j, tmp);
+                
+                // only get res when you get the last row
                 if(i == triangle.size() - 1) res = Math.min(res, tmp);
             }
         }

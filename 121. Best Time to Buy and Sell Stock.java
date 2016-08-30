@@ -11,8 +11,8 @@ public class Solution {
         
         // because there is only one transaction, so do not have the outer loop(for transactions)
         int diffMax = dp[0] - prices[0];
-        for(int j=1; j<prices.length; j++) {
-            dp[j] = Math.max(dp[j-1], prices[j] + diffMax);
+        for(int j = 1; j < prices.length; j++) {
+            dp[j] = Math.max(dp[j - 1], prices[j] + diffMax);
             diffMax = Math.max(diffMax, -prices[j]);    // dp[i-1][m] is not exist, so it is 0
         }
         return dp[prices.length - 1];
