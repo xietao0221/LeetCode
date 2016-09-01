@@ -1,15 +1,13 @@
 // https://discuss.leetcode.com/topic/28738/java-python-binary-search-o-nlogn-time-with-explanation/2
-// binary search: 
-// Time Complexity: O(nlogn)
+// binary search: O(nlogn)
 public class Solution {
     public int lengthOfLIS(int[] nums) {
         int[] dp = new int[nums.length];
         int size = 0;
         
         for(int num: nums) {
-            int left = 0, right = size, middle = 0;
-            
             // binary search
+            int left = 0, right = size, middle = 0;     // right = size
             while(left < right) {
                 middle = left + (right - left) / 2;
                 if(dp[middle] < num) left = middle + 1;
