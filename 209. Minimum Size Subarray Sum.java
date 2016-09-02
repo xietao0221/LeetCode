@@ -24,8 +24,9 @@ public class Solution {
         
         int res = Integer.MAX_VALUE;
         for(int i = 0; i < sums.length; i++) {
-            // i is the starting point, we are going to search the ending point
-            // the target is sums[i] + s
+            // i is the starting point, we are going to search the ending point, the target is sums[i] + s
+            // end is the inserting point for sums[i] + s, which means sums[end] >= sums[i] + s
+            // Ex. sums = [0,2,5,6,8,12,15], and the target is 7, end is 4, and 8(index 4) >= 7, meet the requirement
             int end = binarySearch(sums, sums[i] + s, i + 1, sums.length - 1);
             if(end == sums.length) break;
             res = Math.min(res, end - i);
