@@ -1,0 +1,569 @@
+# Creating Table
+CREATE TABLE VENDOR(
+V_CODE INTEGER NOT NULL UNIQUE,
+V_NAME VARCHAR(35) NOT NULL,
+V_CONTACT VARCHAR(25) NOT NULL,
+V_AREACODE CHAR(3) NOT NULL,
+V_PHONE CHAR(8) NOT NULL,
+V_STATE CHAR(2) NOT NULL,
+V_ORDER CHAR(1) NOT NULL,
+PRIMARY KEY(V_CODE)
+);
+
+
+
+# Primary Key and Foreign Key
+# 'ON UPDATE CASCADE' would allow you to change the primary key value and any tables that 
+# have foreign key references to the value will be changed accordingly.
+CREATE TABLE PRODUCT(
+P_CODE VARCHAR(10) NOT NULL UNIQUE,
+P_DESCRIPT VARCHAR(35) NOT NULL,
+P_INDATE DATE NOT NULL,
+P_QOH SMALLINT NOT NULL,
+P_MIN SMALLINT NOT NULL,
+P_PRICE NUMBER(8,2) NOT NULL,
+P_DISCOUNT NUMBER(5,2) NOT NULL,
+V_CODE INTEGER,
+PRIMARY KEY(P_CODE),
+FOREIGN KEY(V_CODE) REFERENCES VENDOR ON UPDATE CASCADE
+);
+
+
+
+# SQL Constraints: Not Null, Unique, Default, Check
+CREATE TABLE CUSTOMER(
+CUS_CODE NUMBER PRIMARY KEY,
+CUS_LNAME VARCHAR(15) NOT NULL,
+CUS_FNAME VARCHAR(15) NOT NULL,
+CUS_INITIAL CHAR(1),
+CUS_AREACODE CHAR(3) DEFAULT '615' NOT NULL CHECK(CUS_AREACODE IN ('615','713','931')),
+CUS_PHONE CHAR(8) NOT NULL,
+CUS_BALANCE NUMBER(9,2) DEFAULT 0.00
+CONSTRAINT CUS_UI1 UNIQUE (CUS_LNAME, CUS_FNAME)
+);
+
+
+
+# SQL Indexes
+# Updating a table with indexes takes more time than updating a table without (because the indexes also need an update). 
+# So you should only create indexes on columns (and tables) that will be frequently searched against.
+CREATE INDEX P_INDATEX 
+ON PRODUCT(P_INDATE);
+
+CREATE UNIQUE INDEX EMP_TESTDEX 
+ON TEST(EMP_NUM, TEST_CODE, TEST_DATE);
+
+
+
+# Insert
+INSERT INTO VENDOR 
+VALUES(21225, 'Bryson, Inc.', 'Smithson', '615', '223-3234', 'TN', 'Y');
+
+INSERT INTO PRODUCT(P_CODE, P_DESCRIPT) 
+VALUES('BRT-345', 'Titanium drill bit');
+
+
+
+# Select
+SELECT * 
+FROM PRODUCT;
+
+SELECT P_CODE, P_DESCRIPT, P_INDATE, P_QOH, P_MIN, P_PRICE, P_DISCOUNT, V_CODE 
+FROM PRODUCT;
+
+
+
+# Update
+UPDATE PRODUCT 
+SET P_INDATE = '18-JAN-2014', P_PRICE = 17.99, P_MIN = 10 
+WHERE P_CODE = '13-Q2/P2';
+
+
+
+# Where
+DELETE FROM PRODUCT 
+WHERE P_CODE = 'BRT-345';
+
+
+
+# Aliases
+SELECT P_DESCRIPT, P_QOH, P_PRICE, P_QOH*P_PRICE 
+FROM PRODUCT;
+
+SELECT P_DESCRIPT, P_QOH, P_PRICE, P_QOH*P_PRICE AS TOTVALUE 
+FROM PRODUCT;
+
+SELECT P_CODE, P_INDATE, P_INDATE+90 AS EXPDATE 
+FROM PRODUCT;
+
+
+
+# OR, AND
+SELECT P_DESCRIPT, P_INDATE, P_PRICE, V_CODE 
+FROM PRODUCT 
+WHERE V_CODE = 21344 OR V_CODE = 24288;
+
+SELECT P_DESCRIPT, P_INDATE, P_PRICE, V_CODE
+FROM PRODUCT
+WHERE P_PRICE < 50 AND P_INDATE > '15-JAN-2014';
+
+SELECT P_DESCRIPT, P_INDATE, P_PRICE, V_CODE
+FROM PRODUCT
+WHERE (P_PRICE < 50 AND P_INDATE > '15-JAN-2014') OR V_CODE = 24288;
+
+
+
+# Between, is Null, Like, In
+SELECT *
+FROM PRODUCT
+WHERE P_PRICE BETWEEN 50.00 AND 100.00;
+
+SELECT P_CODE, P_DESCRIPT, V_CODE
+FROM PRODUCT
+WHERE V_CODE IS NULL;
+
+SELECT V_NAME, V_CONTACT, V_AREACODE, V_PHONE
+FROM VENDOR
+WHERE V_CONTACT LIKE 'Smith%';
+
+SELECT *
+FROM PRODUCT
+WHERE V_CODE IN (21344, 24288);
+
+SELECT V_CODE, V_NAME 
+FROM VENDOR
+WHERE V_CODE IN (SELECT V_CODE FROM PRODUCT);
+
+
+
+# Exists
+SELECT *
+FROM VENDOR
+WHERE EXISTS(SELECT * FROM PRODUCT WHERE P_QOH <= P_MIN);
+
+INSERT INTO CONTACTS(CONTACT_ID, CONTACT_NAME)
+SELECT SUPPLIER_ID, SUPPLIER_NAME
+FROM SUPPLIERS
+WHERE EXISTS(SELECT * FROM ORDERS WHERE SUPPLIERS.SUPPLIER_ID = ORDERS.SUPPLIER_ID);
+
+UPDATE SUPPLIERS
+SET SUPPLIER_NAME = (SELECT CUSTOMERS.NAME FROM CUSTOMERS WHERE CUSTOMERS.CUSTOMER_ID = SUPPLIERS.SUPPLIER_ID)
+WHERE EXISTS(SELECT CUSTOMERS.NAME FROM CUSTOMERS WHERE CUSTOMERS.CUSTOMER_ID = SUPPLIERS.SUPPLIER_ID);
+
+DELETE FROM SUPPLIERS
+WHERE EXISTS(SELECT * FROM ORDERS WHERE SUPPLIERS.SUPPLIER_ID = ORDERS.SUPPLIER_ID);
+
+SELECT *
+FROM SUPPLIERS
+WHERE EXISTS(SELECT * FROM ORDERS WHERE SUPPLIERS.SUPPLIER_ID = ORDERS.SUPPLIER_ID);
+
+SELECT *
+FROM SUPPLIERS
+WHERE NOT EXISTS(SELECT * FROM ORDERS WHERE SUPPLIERS.SUPPLIER_ID = ORDERS.SUPPLIER_ID);
+
+
+
+# Alter
+ALTER TABLE PRODUCT 
+MODIFY(V_CODE CHAR(5));
+
+ALTER TABLE PRODUCT 
+MODIFY(P_PRICE DECIMAL(9,2));
+
+ALTER TABLE PRODUCT 
+ADD(P_SALECODE CHAR(1));
+
+ALTER TABLE VENDOR 
+DROP COLUMN V_ORDER;
+
+
+
+# Table update in bulk - Separate method
+CREATE TABLE PART(
+PART_CODE CHAR(8),
+PART_DESCRIPT CHAR(35),
+PART_PRICE DECIMAL(8,2),
+V_CODE INTEGER,
+PRIMARY KEY(PART_CODE)
+);
+
+INSERT INTO PART(PART_CODE, PART_DESCRIPT, PART_PRICE, V_CODE)
+SELECT P_CODE, P_DESCRIPT, P_PRICE, V_CODE FROM PRODUCT;
+
+
+
+# Table update in bulk - Combined method
+CREATE TABLE PART AS
+SELECT P_CODE AS PART_CODE, P_DESCRIPT AS PART_DESCRIPT, P_PRICE AS PART_PRICE, V_CODE
+FROM PRODUCT;
+
+ALTER TABLE PART
+ADD PRIMARY KEY (PART_CODE);
+
+ALTER TABLE PART
+ADD FOREIGN KEY (V_CODE) REFERENCES VENDOR;
+
+
+
+# Order By
+SELECT P_CODE, P_DESCRIPT, P_INDATE, P_PRICE
+FROM PRODUCT
+ORDER BY P_PRICE;
+
+SELECT EMP_LNAME, EMP_FNAME, EMP_INITIAL, EMP_AREACODE, EMP_PHONE
+FROM EMPLOYEE
+ORDER BY EMP_LNAME, EMP_FNAME, EMP_INITIAL;
+
+
+
+# Distinct, Count, Max, Min, Sum, Avg
+SELECT DISTINCT V_CODE
+FROM PRODUCT;
+
+SELECT COUNT(DISTINCT V_CODE)
+FROM PRODUCT
+WHERE P_PRICE <= 10.00;
+
+SELECT MAX(P_PRICE) 
+FROM PRODUCT;
+
+SELECT MIN(P_PRICE)
+FROM PRODUCT;
+
+SELECT P_CODE, P_DESCRIPT, P_PRICE
+FROM PRODUCT
+WHERE P_PRICE = (SELECT MAX(P_PRICE) FROM PRODUCT);
+
+SELECT *
+FROM PRODUCT
+WHERE P_QOH*P_PRICE = (SELECT MAX(P_QOH*P_PRICE) FROM PRODUCT);
+
+SELECT SUM(CUS_BALANCE) AS TOTBALANCE
+FROM CUSTOMER;
+
+SELECT AVG(P_PRICE)
+FROM PRODUCT;
+
+SELECT P_CODE, P_DESCRIPT, P_QOH, P_PRICE, V_CODE
+FROM PRODUCT
+WHERE P_PRICE > (SELECT AVG(P_PRICE) FROM PRODUCT)
+ORDER BY P_PRICE DESC;
+
+
+
+# Group By: must has min, max, avg, count ...
+SELECT P_SALECODE, MIN(P_PRICE)
+FROM PRODUCT
+GROUP BY P_SALECODE
+ORDER BY P_SALECODE;
+
+SELECT P_SALECODE, AVG(P_PRICE)
+FROM PRODUCT
+GROUP BY P_SALECODE
+ORDER BY P_SALECODE;
+
+SELECT V_CODE, COUNT(DISTINCT P_CODE)
+FROM PRODUCT
+GROUP BY V_CODE;
+
+
+
+# Having
+SELECT V_CODE, COUNT(DISTINCT P_CODE), AVG(P_PRICE)
+FROM PRODUCT
+GROUP BY V_CODE
+HAVING AVG(P_PRICE) < 10;
+
+
+
+# Join
+SELECT P_DESCRIPT, P_PRICE, V_NAME, V_CONTACT, V_AREACODE, V_PHONE
+FROM PRODUCT, VENDOR
+WHERE PRODUCT.V_CODE = VENDOR.V_CODE;
+
+SELECT CUS_LNAME, INVOICE.INV_NUMBER, INV_DATE, P_DESCRIPT
+FROM CUSTOMER, INVOICE, LINE, PRODUCT
+WHERE CUSTOMER.CUS_CODE = INVOICE.CUS_CODE
+AND INVOICE.INV_NUMBER = LINE.INV_NUMBER
+AND LINE.P_CODE = PRODUCT.P_CODE
+AND CUSTOMER.CUS_CODE = 10014
+ORDER BY INV_NUMBER;
+
+#join condition
+SELECT a.name, a.score
+FROM student_scores a, grade_class b
+WHERE b.grade = 'A' AND a.score BETWEEN b.low_end AND b.high_end;
+
+# Old-style Join: returns only the rows that meet the join condition in the WHERE clause
+# (Require the use of a table qualifier for the common attributes - WHERE condition)
+SELECT *
+FROM T1, T2
+WHERE T1.C1 = T2.C1;
+
+# cross join: returns the Cartesian product of T1 and T2
+# if there two tables have 8 and 18 rows perspectively, the result contains 8*18 rows
+SELECT *
+FROM T1, T2;
+
+SELECT *
+FROM T1 CROSS JOIN T2;
+
+# Natual Join: returns only the rows with matching values in the matching columns; 
+# 1. Determine the common attributes by looking for attributes with identical names and compatible data types
+# (Does not require the use of a table qualifier for the common attributes)
+# 2. Select only the rows with common values in the common attributes
+# 3. If there are no common attributes, return the relational product of the two tables.
+SELECT *
+FROM T1 NATURAL JOIN T2;
+
+SELECT *
+FROM T1 NATURAL JOIN T2 NATURAL JOIN T3;
+
+# Join USING: returns only the rows with matching values in the column indicated in the USING clause, and that column must exist in both tables
+# (Does not require table qualifiers)
+SELECT INV_NUMBER, P_CODE, P_DESCRIPT, LINE_UNITS, LINE_PRICE
+FROM INVOICE JOIN LINE USING (INV_NUMBER) JOIN PRODUCT USING (P_CODE);
+
+# Join ON: Express a join when the tables have no common attribute names
+# returns only the rows that meet the indicated join condition
+# Join on syntax lets you perform a join even when the tables do not share a common attribute name.
+# (Requires a table qualifier for the common attributes)
+SELECT INVOICE.INV_NUMBER, PRODUCT.P_CODE, P_DESCRIPT, LINE_UNITS, LINE_PRICE
+FROM INVOICE JOIN LINE ON INVOICE.INV_NUMBER = LINE.INV_NUMBER
+	JOIN PRODUCT ON LINE.P_CODE = PRODUCT.P_CODE;
+
+SELECT E.EMP_MGR, M.EMP_LNAME, E.EMP_NUM, E.EMP_LNAME
+FROM EMP E JOIN EMP M ON E.EMP_MGR = M.EMP_NUM
+ORDER BY E.EMP_MGR;
+
+# Recursive Join (the same as Join On mentioned above)
+SELECT E.EMP_NUM, E.EMP_LNAME, E.EMP_MGR, M.EMP_LNAME
+FROM EMP E, EMP M
+WHERE E.EMP_MGR = M.EMP_NUM
+ORDER BY E.EMP_MGR;
+
+# left outer join: returns not only the rows matching the join condition(that is, rows with matching values in the common column),
+# but also the rows in the left side table with unmatched values in the right side table.
+SELECT P_CODE, VENDOR.V_CODE, V_NAME
+FROM VENDOR LEFT JOIN PRODUCT ON VENDOR.V_CODE = PRODUCT.V_CODE;
+
+# right outer join: returns not only the rows matching the join condition,
+# but also the rows in the right side table with unmatched values in the left side table
+SELECT P_CODE, VENDOR.V_CODE, V_NAME
+FROM VENDOR RIGHT JOIN PRODUCT ON VENDOR.V_CODE = PRODUCT.V_CODE;
+
+# full outer join: returns not only the rows matching the join condition(that is, rows with matching values in the common column),
+# but also all of the rows with unmatched values in either side table.
+SELECT P_CODE, VENDOR.V_CODE, V_NAME
+FROM VENDOR FULL JOIN PRODUCT ON VENDOR.V_CODE = PRODUCT.V_CODE;
+
+
+
+# Subqueries
+# SELECT subqueries
+INSERT INTO PRODUCT
+SELECT * FROM P;
+
+UPDATE PRODUCT
+SET P_PRICE = (SELECT AVG(P_PRICE) FROM PRODUCT)
+WHERE V_CODE IN (SELECT V_CODE FROM VENDOR WHERE V_AREACODE = '615');
+
+DELETE FROM PRODUCT
+WHERE V_CODE IN (SELECT V_CODE FROM VENDOR WHERE V_AREACODE = '615');
+
+# WHERE subqueries
+SELECT P_CODE, P_PRICE
+FROM PRODUCT
+WHERE P_PRICE >= (SELECT AVG(P_PRICE) FROM PRODUCT);
+
+SELECT DISTINCT CUS_CODE, CUS_LNAME, CUS_FNAME
+FROM CUSTOMER JOIN INVOICE USING (CUS_CODE)
+	JOIN LINE USING (INV_NUMBER)
+	JOIN PRODUCT USING (P_CODE)
+WHERE P_CODE IN (SELECT P_CODE FROM PRODUCT WHER P_DESCRIPT = 'Claw hammer');
+
+# IN subqueries: used to compare a single attribute to a list of values
+SELECT DISTINCT CUS_CODE, CUS_LNAME, CUS_FNAME
+FROM CUSTOMER JOIN INVOICE USING (CUS_CODE)
+	JOIN LINE USING (INV_NUMBER)
+	JOIN PRODUCT USING (P_CODE)
+WHERE P_CODE IN (SELECT P_CODE FROM PRODUCT WHERE P_DESCRIPT LIKE '%hammer%' OR P_DESCRIPT LIKE '%saw%');
+
+# HAVING subqueries: restricts the output of a GROUP BY query by applying conditional criteria to the grouped rows
+SELECT P_CODE, SUM(LINE_UNITS)
+FROM LINE
+GROUP BY P_CODE
+HAVING SUM(LINE_UNITS) > (SELECT AVG(LINE_UNITS) FROM LINE);
+
+# ALL subqueries: allows comparison of a single value with a list of values returned by the first subquery
+# greater than ALL is equalent to greater than the largest of
+# ALL is equivalent to AND
+SELECT P_CODE, P_QOH*P_PRICE
+FROM PRODUCT
+WHERE P_QOH*P_PRICE > ALL 
+	(SELECT P_QOH*P_PRICE FROM PRODUCT
+	WHERE V_CODE IN (SELECT V_CODE FROM VENDOR WHERE V_STATE = 'FL'));
+
+# ANY subqueries: allows comparison of a single value to a list of values and selects only the rows for which the value is greater than or less than any value in the list
+# ANY is equivalent to OR
+(M == 6) OR (M == 8) OR (M == 10)
+M IN (6, 8, 10)
+M = ANY(6, 8, 10)
+
+# FROM subqueries
+SELECT DISTINCT CUSTOMER.CUS_CODE CUSTOMER.CUS_LNAME
+FROM CUSTOMER, (SELECT INVOICE.CUS_CODE
+					FROM INVOICE NATURAL JOIN LINE
+					WHERE P_CODE = '13-Q2/P2') CP1, 
+				(SELECT INVOICE.CUS_CODE
+					FROM INVOICE NATURAL JOIN LINE
+					WHERE P_CODE = '23109-H8') CP2
+WHERE CUSTOMER.CUS_CODE = CP1.CUS_CODE AND CP1.CUS_CODE = CP2.CUS_CODE;
+
+# Attribute list/ column/ inline subqueries
+# alias cannot use in the same query even though these two are the same
+SELECT P_CODE, P_PRICE, 
+	(SELECT AVG(P_PRICE) FROM PRODUCT) AS AVGPRICE, 
+	(P_PRICE - (SELECT AVG(P_PRICE) FROM PRODUCT)) AS DIFF
+FROM PRODUCT;
+
+SELECT P_CODE, SUM(LINE_UNITS*LINE_PRICE) AS SALES,
+	(SELECT COUNT(*) FROM EMPLOYEE) AS ECOUNT,
+	SUM(LINE_UNITS*LINE_PRICE)/(SELECT COUNT(*) FROM EMPLOYEE) AS CONTRIB
+FROM LINE
+GROUP BY P_CODE;
+
+# Correlated subqueries: it initiates the outer query, for each row of the outer query result set, it executes the inner query by passing the outer row to the inner query
+# in this case: the inner query runs once, using the first product code found in the outer LINE, and returns the average sale for that product.
+# When the number of units sold in that outer LINE row is greater than the average computed, the row is added to the output.
+# Then the inner query runs again, this time using the second product code found in the outer LINE.
+SELECT INV_NUMBER, P_CODE, LINE_UNITS
+FROM LINE LS
+WHERE LS.LINE_UNITS > (SELECT AVG(LINE_UNITS) 
+						FROM LINE LA 
+						WHERE LA.P_CODE = LS.P_CODE);
+
+SELECT INV_NUMBER, P_CODE, LINE_UNITS, 
+	(SELECT AVG(LINE_UNITS) 
+		FROM LINE LX 
+		WHERE LX.P_CODE = LS.P_CODE) AS AVG
+FROM LINE LS
+WHERE LS.LINE_UNITS > (SELECT AVG(LINE_UNITS) 
+						FROM LINE LA 
+						WHERE LA.P_CODE = LS.P_CODE);
+
+
+
+# VIEW: virtual table based on a SELECT query
+CREATE VIEW PRICEGT50 AS
+	(SELECT P_DESCRIPT, P_QOH, P_PRICE
+		FROM PRODUCT
+		WHERE P_PRICE > 50.00);
+
+SELECT * FROM PRICEGT50;
+
+# Updated Views: used to update attributes in any base tables used in the view
+# GROUP BY, Set Operators, JOIN cannot be used
+CREATE VIEW PSVUPD AS 
+	(SELECT PRODMASTER.PROD_ID, PROD_QOH, PS_QTY
+		FROM PRODMASTER, PRODSALES
+		WHERE PRODMASTER.PROD_ID = PRODSALES.PROD_ID);
+
+UPDATE PSVUPD
+SET PROD_QOH = PROD_QOH - PS_QTY;
+
+
+
+# Sequences: have a name and can be used anywhere a value expected, not tied to a table or column
+# NEXTVAL returns the current value, then does ++; CURRVAL just fetches the current value, does not do ++;
+CREATE SEQUENCE CUS_CODE_SEQ START WITH 20010 NOCACHE;
+
+CREATE SEQUENCE INV_NUMBER_SEQ START WITH 4010 NOCACHE;
+
+SELECT * FROM USER_SEQUENCES;
+
+INSERT INTO CUSTOMER 
+VALUES (CUS_CODE_SEQ.NEXTVAL, 'Connery', 'Sean', NULL, '615', '898-2007', 0.00);
+
+SELECT * FROM CUSTOMER WHERE CUS_CODE = 20010;
+
+INSERT INTO INVOICE
+VALUES (INV_NUMBER_SEQ.NEXTVAL, 20010, SYSDATE);
+
+SELECT * FROM INVOICE WHERE INV_NUMBER = 4010;
+
+INSERT INTO LINE
+VALUES (INV_NUMBER_SEQ.CURRVAL, 1, '13-02/P2', 1, 14.99);
+
+INSERT INTO LINE
+VALUES (INV_NUMBER_SEQ.CURRVAL, 2, '23109-HB', 1, 9.95);
+
+SELECT * FROM LINE
+WHERE INV_NUMBER = 4010;
+
+
+
+# Blocks of code
+BEGIN
+INSERT INTO VENDOR
+VALUES (25678, 'Microsoft Corp.', 'Bill Gates', '765', '546-8484', 'WA', 'N');
+END;
+/
+
+SET SERVEROUTPUT ON
+BEGIN
+INSERT INTO VENDOR
+VALUES (25772, 'Clue Store', 'Issac Heyes', '456', '323-2009', 'VA', 'N');
+DBMS_OUTPUT.PUT_LINE('New Vendor Added!');
+END;
+/
+
+SELECT * FROM VENDOR;
+
+# Triggers
+CREATE OR REPLACE TRIGGER TRG_PRODUCT_REORDER
+AFTER INSERT OR UPDATE OF P_QOH ON PRODUCT
+BEGIN
+	UPDATE PRODUCT
+	SET P_REORDER = 1
+	WHERE P_QOH <= P_MIN;
+END;
+/
+
+SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_MIN_ORDER, P_REORDER
+FROM PRODUCT
+WHERE P_CODE = '11QER/31';
+
+UPDATE PRODUCT
+SET P_QOH = 4
+WHERE P_CODE = '11QER/31';
+
+SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_MIN_ORDER, P_REORDER
+FROM PRODUCT
+WHERE P_CODE = '11QER/31';
+
+# Sotred Procedure
+CREATE OR REPLACE PROCEDURE PRC_PROD_DISCOUNT
+AS BEGIN
+	UPDATE PRODUCT
+	SET P_DISCOUNT = P_DISCOUNT + .05
+	WHERE P_QOH >= P_MIN * 2;
+	DBMS_OUTPUT.PUT_LINE('* * Update Finished * *');
+END;
+/
+
+SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_DISCOUNT
+FROM PRODUCT;
+
+EXEC PRC_PROD_DISCOUNT;
+
+SELECT P_CODE, P_DESCRIPT, P_QOH, P_MIN, P_DISCOUNT
+FROM PRODUCT;
+
+
+
+
+
+
+
+
