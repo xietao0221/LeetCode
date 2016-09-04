@@ -18,7 +18,9 @@ public class Solution {
         List<Integer> res = new ArrayList<>();
         Arrays.sort(nums);
         
+        // the starting point
         for(int i = nums.length - 1; i >= 0; i--) {
+            // the ending point
             for(int j = i; j < nums.length; j++) {
                 if(nums[j] % nums[i] == 0 && dp[j] + 1 > dp[i]) {
                     dp[i] = dp[j] + 1;
@@ -31,6 +33,7 @@ public class Solution {
             }
         }
         
+        // output the result
         for(int i = 0; i < size; i++) {
             res.add(nums[index]);
             index = parent[index];
