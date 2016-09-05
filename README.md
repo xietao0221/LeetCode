@@ -24,7 +24,7 @@ Find Missing/Duplicated Number: (41, 268, 287)
 Rotate Image: (48, 59)
 (48, 59) top-left: matrix[row][col]; top-right: matrix[col][n-1-row]; bottom-right: matrix[n-1-row][n-1-col]; bottom-left: matrix[n-1-col][row]
 
-Trapping Water and Largest Rectangle in Histogram: (11, 42, 84)
+Trapping Water and Largest Rectangle in Histogram: (11, 42, 84, 85)
 formula: (min(height[right], height[left]) - height[bottom]) * (right - left - 1)
 (11) use two pointer from both sides to the middle, always anchor the highest bar and move the other one
 (42) use one stack which saves all index in decreasing order
@@ -32,7 +32,7 @@ formula: (min(height[right], height[left]) - height[bottom]) * (right - left - 1
 - when height is decreasing, push into the stack and increase the index
 - when height is increasing, pop out an index as the bottom index, and peek an index as the left-most bar, and then do the calculation
 
-(84) use one stack which saves all index in increasing order
+(84, 85) use one stack which saves all index in increasing order
 
 - when height is increasing, push into the stack and increase the index
 - when height is increasing, pop out an index as the top index, and peek an index as the left bar to calculate the width, and then do the calculation; after calculation, do not increase the i, because we need to compare this i with the previous ones to do the calculation iteratively.
@@ -47,7 +47,7 @@ Two Pointers: (26, 27， 209, 3, 76, 349, 350)
 - if localSum >= target, calculate the length of (right - left), and then substract the nums[left] from localSum, increase the left
 - notes: this question could also be solved using binary search for sums array.
 
-Binary Search and Search in Rotated Array: (4, 153, 154, 33, 81, 34, 278, 35, 287, 162, 209)
+Binary Search and Search in Rotated Array: (4, 153, 154, 33, 81, 34, 278, 35, 209, 315, 287, 162, 209)
 article: https://discuss.leetcode.com/topic/5891/clean-iterative-solution-with-two-binary-searches-with-explanation
 if the nums is sorted, we could do binary search
 (4) divide each array into two parts, and compare A[i-1], B[j] and B[j-1], A[i].
@@ -71,13 +71,12 @@ if the nums is sorted, we could do binary search
 - return nums[left] == target
 
 (34, 278) Search for a range, two binary search: one for left-round middle, and the other for right-round middle, and they are symmetrical
-(35, 209) Search Insert Position: different conditions
+(35, 209, 315) Search Insert Position: different conditions
 
 - while loop condition: while(left <= right)
 - middle = left + (right - left) / 2
-- if condition(1): (nums[middle] == target) return middle
-- if condition(2): (nums[middle] < target) left = middle + 1
-- if condition(3): (nums[middle] > target) right = middle - 1
+- if condition(1): (nums[middle] < target) left = middle + 1
+- if condition(2): (nums[middle] > target) right = middle - 1
 
 (287) Search for duplicates
 
@@ -212,9 +211,11 @@ Word Ladder: (126, 127)
 - for each words in begin set, change every position and check if the new words is in the end set or dictionary: if it is, put the pair into map.
 - notes: if words in the begin set occurs in the end set also, return immediately
 
-Contiguous/Consecutive Subarray: (128, 152)
+Contiguous/Consecutive Subarray: (128, 53, 152)
 (128) unsorted array. use hash set to save all nums. For each num in nums, search if the hash set contains num-- or num++, record the local max.
-(152) because there could be negative integer in the array, we should save both local max and local min.
+(53, 152) Maximum Sum/Product Subarray
+create 1-D DP Matrix, dp[i] represents the max-value ending at i-1; dp[i] = Math.max(dp[i-1] + nums[i-1], dp[i])
+notes: because there could be negative integer in the array, we should save both local max and local min for Maximum Product Subarray
 
 Moore’s Voting Algorithm: (169, 229)
 
@@ -321,5 +322,20 @@ Calculator: (227, 224, General)
 - if it si ): do as many calculations as possible until the previous sign is ( and pop out (
 - finally, pop out two stacks and do the rest of calculation, and then pop out the last num which is the result
 
+Recursive DP: (95, 241)
+
+- create a new ‘res’ each round
+- for each i from 0 to n, divide the whole array into two part, each part is the result of recursive call, and use permutation to combine them together.
+
+TreeSet: (220, 363)
+(220) use tree set to save up to k elements, and use floor()/celing() to check if the tree set has an element whose difference between this one is up to t. floor() is the greatest number less than or equals to the given one; ceiling() is the smallest number greater than or equals to the given one.
+(363) ceiling is the least number which is greater than or equals to (currSum - k), so ceiling >= currSum - k  ==>  currSum - ceiling <= k
+
+Subarray and Subsequence: (209, 354, 300)
+(209) use Kadane Algorithm => O(n)
+(354, 300) use Russian Doll/ LIS => O(n^2) or O(nlogn) using binary search
+
 - Subarray, Substring(contiguous array), Subsequence(could delete some characters)
 - use hash map or hash set to save Point Class: (1) override equals() and hashcode() methods in Point Class (2) define MyPoint Class to composite Point Class and define equals() and hashcode() (3) inheritate Point using ‘class MyPoint extends Point {}’ and define equals() and hashcode()
+- TreeMap: lastKey() -> get the highest key value
+- PriorityQueue: the default is min heap, queue.peek()/poll() is the smallest value; if use PriorityQueue as a sliding window, it always keep the k largest numbers
