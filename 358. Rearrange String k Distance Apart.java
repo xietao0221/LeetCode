@@ -21,7 +21,7 @@ public class Solution {
         return sb.toString();
     }
     
-    // find the valid(for position) character which has largest count
+    // find the valid(for position) character which has largest remaining count
     public int findValidMaxRemaining(int[] count, int[] validPos, int index) {
         int max = Integer.MIN_VALUE, candidate = -1;
         for(int i = 0; i < count.length; i++) {

@@ -6,9 +6,9 @@ public class Twitter {
     
     /** Initialize your data structure here. */
     public Twitter() {
-        this.user = new HashMap<>();
-        this.tweet = new HashMap<>();
-        this.timeStamp = 0;
+        user = new HashMap<>();
+        tweet = new HashMap<>();
+        timeStamp = 0;
     }
     
     /** Compose a new tweet. */
@@ -23,8 +23,9 @@ public class Twitter {
     
     /** Retrieve the 10 most recent tweet ids in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user herself. Tweets must be ordered from most recent to least recent. */
     public List<Integer> getNewsFeed(int userId) {
+        if(!user.containsKey(userId)) return new ArrayList<>();
+        
         List<Integer> res = new ArrayList<>();
-        if(user.get(userId) == null) return res;
         Queue<Map.Entry<Integer, Integer>> newsFeed = new PriorityQueue<>(new TweetComparator());
         
         // offer all news posted by user himself
@@ -49,21 +50,26 @@ public class Twitter {
     /** Follower follows a followee. If the operation is invalid, it should be a no-op. */
     public void follow(int followerId, int followeeId) {
         if(followerId == followeeId) return;
-        if(user.get(followerId) == null) {
+        
+        if(!user.containsKey(followerId)) {
             user.put(followerId, new HashSet<>());
             tweet.put(followerId, new HashMap<>());
         }
-        if(user.get(followeeId) == null) {
+        
+        if(!user.containsKey(followeeId)) {
             user.put(followeeId, new HashSet<>());
             tweet.put(followeeId, new HashMap<>());
         }
+        
         user.get(followerId).add(followeeId);
     }
     
     /** Follower unfollows a followee. If the operation is invalid, it should be a no-op. */
     public void unfollow(int followerId, int followeeId) {
         if(followerId == followeeId) return;
-        if(user.get(followerId) == null || user.get(followeeId) == null) return;
+        
+        if(!user.containsKey(followerId) || !user.containsKey(followeeId)) return;
+        
         user.get(followerId).remove(followeeId);
     }
     
