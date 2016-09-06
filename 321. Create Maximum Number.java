@@ -16,9 +16,9 @@ public class Solution {
     
     private int[] merge(int[] nums1, int[] nums2, int k) {
         int[] res = new int[k];
-        int index = 0;          // the index of 'res'
+        int i = 0, j = 0;
         
-        for(int i = 0, j = 0; index < k; index++) {
+        for(int index = 0; index < k; index++) {
             res[index] = greater(nums1, i, nums2, j) ? nums1[i++] : nums2[j++];
         }
         return res;
@@ -32,7 +32,7 @@ public class Solution {
         }
         
         // j = num2.length: all digits in nums2 are checked, so nums1 and nums2 are the same
-        // i < nums1.length && nums1[i] > nums2[j]: num1 and num2 are not fully checked, but at this time
+        // i < nums1.length && nums1[i] > nums2[j]: num1 and num2 are not fully checked but 'break', and at this time
         // the current digit of nums1 is greater than the one of nums2
         return j == nums2.length || (i < nums1.length && nums1[i] > nums2[j]);
     }
