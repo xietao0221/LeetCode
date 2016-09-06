@@ -1,4 +1,10 @@
-// https://www.youtube.com/watch?v=GSBLe8cKu0s
+/* https://www.youtube.com/watch?v=GSBLe8cKu0s
+normal condition: sort the buildings based on x
+special conditions:
+    (1) two starts have same x: the higher one should be picked first. Because if we choose lower one first, this lower height could be the new lastKey() and be marked; but we should mark the higher height, and then the lower one does not hurt the result.
+    (2) two ends have same x: the lower one should be picked first. Because if we choose higher one first, the lower one could be the new lastKey() and be marked; but we should remove the lower height and it does not hurt the result, and then remove the higher one, the height reaches 0, that is correct answer.
+    (3) one start and one end have same x: the start should be picked first. a) if start's height > end's height, choose start first avoid to paint 0 as the height; b) if start's height < end's height, choose start first avoid to paint 0 and then paint the right answer.
+*/
 public class Solution {
     public List<int[]> getSkyline(int[][] buildings) {
         List<int[]> res = new ArrayList<>();
@@ -54,9 +60,9 @@ public class Solution {
             if(this.x != o.x) {
                 return this.x - o.x;
             } else {
-                // if two starts are compared, then higher height building should be picked first
-                // if two ends are compared, then lower height building should be picked first
-                // if one start and end is compared, then start should before the end
+                // if two starts are compared, then higher height building should be picked first: -this.y + o.y
+                // if two ends are compared, then lower height building should be picked first: this.y - o.y
+                // if one start and end is compared, then start should before the end: -this.y - o.y or this.y + o.y
                 return (this.isStart ? -this.y : this.y) - (o.isStart ? -o.y : o.y);
             }
         }
