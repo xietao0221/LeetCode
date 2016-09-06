@@ -10,10 +10,12 @@
 public class Solution {
     public List<Interval> merge(List<Interval> intervals) {
         if(intervals == null || intervals.size() < 2) return intervals;
+        
         Collections.sort(intervals, new IntervalComparator());
         int start = intervals.get(0).start, end = intervals.get(0).end;
         List<Interval> res = new ArrayList<>();
-        for(int i=1; i<intervals.size(); i++) {
+        
+        for(int i = 1; i < intervals.size(); i++) {
             int currStart = intervals.get(i).start, currEnd = intervals.get(i).end;
             if(currStart > end) {
                 res.add(new Interval(start, end));
