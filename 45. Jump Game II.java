@@ -8,7 +8,7 @@ public class Solution {
                 // index + nums[index] is end point after jumping from this point
                 maxEnd = Math.max(maxEnd, index + nums[index]);
                 index++;
-                if(maxEnd >= nums.length-1) return step;
+                if(maxEnd >= nums.length - 1) return step;
             }
             
             // if end is not changed, we cannot move forward from this point

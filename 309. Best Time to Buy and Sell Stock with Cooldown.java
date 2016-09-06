@@ -31,6 +31,7 @@ public class Solution {
 
 
 // O(n) space to O(1) space
+/*
 public class Solution {
     public int maxProfit(int[] prices) {
         int buyPrev = 0, sellPrev = 0, buyCurr = Integer.MIN_VALUE, sellCurr = 0;
@@ -43,3 +44,4 @@ public class Solution {
         return sellCurr;
     }
 }
+*/
