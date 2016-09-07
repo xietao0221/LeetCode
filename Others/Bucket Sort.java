@@ -1,12 +1,5 @@
 public class Solution {
-    private final int maxBucketNum = 5;          // based on space limitations
-
     public void bucketSort(int[] nums) {
-        // create buckets
-        int bucketCount = Math.min(maxBucketNum, nums.length);
-        List<List<Integer>> buckets = new ArrayList<>();
-        for(int i = 0; i < bucketCount; i++) buckets.add(new ArrayList<>());
-
         // find the max and min value
         int maxValue = Integer.MIN_VALUE, minValue = Integer.MAX_VALUE;
         for(int num: nums) {
@@ -14,10 +7,15 @@ public class Solution {
             minValue = Math.min(minValue, num);
         }
 
+        // create buckets
+        int gap = (int)Math.ceil((double)(maxValue - minValue) / (nums.length - 1));
+        int bucketCount = (int)Math.ceil((double)(maxValue - minValue) / gap) + 1;
+        List<List<Integer>> buckets = new ArrayList<>();
+        for(int i = 0; i < bucketCount; i++) buckets.add(new ArrayList<>());
+
         // distribute buckets
-        double bucketRange = (double)(maxValue - minValue + 1) / bucketCount;
         for(int num: nums) {
-            int index = (int)((num - minValue) / bucketRange);
+            int index = (num - minValue) / gap;
             buckets.get(index).add(num);
         }
 
@@ -27,7 +25,6 @@ public class Solution {
             Collections.sort(bucket);
             for(int ele: bucket) nums[index++] = ele;
         }
-
     }
 }
 
