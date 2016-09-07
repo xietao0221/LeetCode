@@ -2,7 +2,7 @@
 public class Solution {
     public boolean isAnagram(String s, String t) {
         if(s.length() != t.length()) return false;
-        int[] charSet = new int[128];
+        int[] charSet = new int[256];
         char[] sArray = s.toCharArray(), tArray = t.toCharArray();
         for(char c: sArray) charSet[c]++;
         for(char c: tArray) {
@@ -17,14 +17,14 @@ public class Solution {
 public class Solution {
     public boolean isAnagram(String s, String t) {
         if(s.length() != t.length()) return false;
+    
+        char[] sArray = s.toCharArray();
+        char[] tArray = t.toCharArray();
+        Arrays.sort(sArray);
+        Arrays.sort(tArray);
         
-        char[] arrayS = s.toCharArray();
-        char[] arrayT = t.toCharArray();
-        Arrays.sort(arrayS);
-        Arrays.sort(arrayT);
-        
-        for(int i = 0; i < arrayS.length; i++) {
-            if(arrayS[i] != arrayT[i]) return false;
+        for(int i = 0; i < sArray.length; i++) {
+            if(sArray[i] != tArray[i]) return false;
         }
         return true;
     }
