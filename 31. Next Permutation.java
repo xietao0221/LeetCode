@@ -1,7 +1,7 @@
 //https://www.nayuki.io/page/next-lexicographical-permutation-algorithm
 /*
 0 1 2 5 3 3 0
-(1) find the longest non-increasing suffix: 0 2 3 [5 3 3 0]
+(1) find the longest non-increasing suffix: 0 1 2 [5 3 3 0]
 (2) identify pivot: 2
 (3) find the right most successor to pivot in the suffix and swap with pivot: 0 1 3 [5 3 2 0]
 (4) reverse the suffix: 0 1 3 [0 2 3 5]
@@ -15,7 +15,7 @@ public class Solution {
         int pivot = nums.length - 2;
         while(pivot > 0 && nums[pivot] >= nums[pivot + 1]) pivot--;
         if(pivot == 0 && nums[pivot] >= nums[pivot + 1]) {
-            reverseOrder(nums, 0, nums.length-1);
+            reverseOrder(nums, 0, nums.length - 1);
             return;
         }
         
@@ -29,7 +29,7 @@ public class Solution {
         nums[target] = tmp;
         
         // reverse the suffix
-        reverseOrder(nums, pivot+1, nums.length-1);
+        reverseOrder(nums, pivot + 1, nums.length - 1);
         return;
     }
     

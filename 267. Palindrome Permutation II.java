@@ -11,10 +11,10 @@ public class Solution {
         if(oddCount > 1) return res;
         
         // put half of letters into arraylist
-        for(int i=0; i<letters.length; i++) {
+        for(int i = 0; i < letters.length; i++) {
             Character curr = (char)i;
             if(letters[i] % 2 == 1) middle = curr;
-            for(int j=0; j<letters[i]/2; j++) list.add(curr);
+            for(int j = 0; j < letters[i] / 2; j++) list.add(curr);
         }
 
         // get the permutation
@@ -29,12 +29,12 @@ public class Solution {
             else res.add(sb.toString() + middle + sb.reverse().toString());
             sb.reverse();       // need to restore the original stringbuilder
         } else {
-            for(int i=0; i<list.size(); i++) {
+            for(int i = 0; i < list.size(); i++) {
                 // avoid duplicated !!! very important
                 // when a number has the same value with its previous, we can use this number only if his previous is used
                 // because if we choose the second one first, and then to the next recursion, the first one is added,
                 // duplicate occurs
-                if((i > 0 && list.get(i) == list.get(i-1) && !used[i-1]) || used[i]) continue;
+                if((i > 0 && list.get(i) == list.get(i - 1) && !used[i - 1]) || used[i]) continue;
                 
                 used[i] = true;
                 sb.append(list.get(i));

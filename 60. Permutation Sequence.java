@@ -15,15 +15,15 @@ public class Solution {
         StringBuilder sb = new StringBuilder();
         int factorial = 1;
         
-        for(int i=1; i<=n; i++) {
+        for(int i = 1; i <= n; i++) {
             factorial *= i;
             list.add(i);
         }
         
         k--;        // not zero-based index
-        for(int i=n; i>=1; i--) {
+        for(int i = n; i >= 1; i--) {
             factorial /= i;
-            sb.append(list.remove(k/factorial));
+            sb.append(list.remove(k / factorial));
             k = k % factorial;
         }
         return sb.toString();
