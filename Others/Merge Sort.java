@@ -5,13 +5,13 @@
  * Use Divide and Conquer Method: divide the array in half, sorts each of those halves, and then merge them back
  * together.
  * */
-public class MergeSort {
-    public static void mergeSort(int[] nums) {
+public class Solution {
+    public void mergeSort(int[] nums) {
         int[] helper = new int[nums.length];
         mergeSort(nums, helper, 0, nums.length - 1);
     }
 
-    private static void mergeSort(int[] nums, int[] helper, int left, int right) {
+    private void mergeSort(int[] nums, int[] helper, int left, int right) {
         if(left < right) {
             int mid = left + (right - left) / 2;
             mergeSort(nums, helper, left, mid);
@@ -20,7 +20,7 @@ public class MergeSort {
         }
     }
 
-    private static void merge(int[] nums, int[] helper, int leftStart, int rightStart, int rightEnd) {
+    private void merge(int[] nums, int[] helper, int leftStart, int rightStart, int rightEnd) {
         int leftEnd = rightStart - 1, anchor = leftStart, len = rightEnd - leftStart + 1;
 
         while(leftStart <= leftEnd && rightStart <= rightEnd) {

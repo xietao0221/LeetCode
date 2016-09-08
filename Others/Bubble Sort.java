@@ -22,7 +22,7 @@ public class Solution {
                     swapped = true;
                 }
             }
-            j++;            //there are j top sorted greatest element on the right of array.
+            j++;                //there are j top sorted greatest element on the right of array.
         }
     }
 }
