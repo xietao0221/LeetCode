@@ -27,9 +27,9 @@ public class Solution {
         minHeap.offer(intervals[0]);
         for(int i = 1; i < intervals.length; i++) {
             Interval target = minHeap.poll();
-            if(target.end <= intervals[i].start) {
+            if(target.end <= intervals[i].start) {      // no conflict, change one and offer one
                 target.end = intervals[i].end;
-            } else {
+            } else {                                    // conflict, offer both
                 minHeap.offer(intervals[i]);
             }
             minHeap.offer(target);

@@ -11,14 +11,16 @@ public class Solution {
     public List<Interval> insert(List<Interval> intervals, Interval newInterval) {
         int index = 0, start = newInterval.start, end = newInterval.end;
         
-        // after searching, index is the overlap interval
+        // skip the interval whose 'end < newInterval.start', which means non-overlap
         while(index < intervals.size() && intervals.get(index).end < newInterval.start) index++;
         
-        // have to use while loop
+        // for all intervals whose 'end >= newInterval.start && start <= newInterval.end', which means overlap
         while(index < intervals.size() && intervals.get(index).start <= newInterval.end) {
             start = Math.min(intervals.get(index).start, start);
             end = Math.max(intervals.get(index).end, end);
-            intervals.remove(index);        // don't need to index++, because the current element is removed
+            
+            // this interval is useless, remove it menas increase index automatically
+            intervals.remove(index);
         }
         
         newInterval.start = start;

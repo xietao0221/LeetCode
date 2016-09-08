@@ -19,9 +19,8 @@ public class Solution {
     }
     
     class IntervalComparator implements Comparator<Interval> {
-        public int compare(Interval m, Interval n) {
-            if(m.start == n.start) return m.end - n.end;
-            return m.start - n.start;
+        public int compare(Interval a, Interval b) {
+            return a.start == b.start ? a.end - b.end : a.start - b.start;
         }
     }
 }
