@@ -1,10 +1,11 @@
 public class Solution {
-    public int countComponents(int n, int[][] edges) {
+    public boolean validTree(int n, int[][] edges) {
         UnionFind set = new UnionFind(n);
         for(int[] edge: edges) {
-            if(!set.find(edge[0], edge[1])) set.union(edge[0], edge[1]);
+            if(set.find(edge[0], edge[1])) return false;
+            set.union(edge[0], edge[1]);
         }
-        return set.size();
+        return set.size() == 1;
     }
     
     class UnionFind {
