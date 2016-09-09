@@ -15,14 +15,17 @@ public class Solution {
         
         Stack<TreeNode> stack = new Stack<>();
         while(root != null || !stack.isEmpty()) {
-            while(root != null) {
+            if(root != null) {
                 stack.push(root);
                 root = root.left;
+            } else {
+                root = stack.pop();
+                
+                if(min != null && root.val <= min) return false;
+                min = root.val;
+                
+                root = root.right;    
             }
-            root = stack.pop();
-            if(min != null && root.val <= min) return false;
-            min = root.val;
-            root = root.right;
         }
         return true;
     }
