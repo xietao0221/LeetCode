@@ -17,12 +17,14 @@ public class Solution {
     public void sumNumbersHelper(TreeNode root, int[] res, int curr) {
         if(root == null) return;
         
+        curr = 10 * curr + root.val;
+        
         if(root.left == null && root.right == null) {
-            res[0] += 10 * curr + root.val;
+            res[0] += curr;
             return;
         }
         
-        sumNumbersHelper(root.left, res, 10 * curr + root.val);
-        sumNumbersHelper(root.right, res, 10 * curr + root.val);        
+        sumNumbersHelper(root.left, res, curr);
+        sumNumbersHelper(root.right, res, curr);        
     }
 }

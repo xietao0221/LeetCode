@@ -16,16 +16,15 @@ public class Solution {
         queue.offer(root);
 
         while(!queue.isEmpty()) {
-            Queue<TreeNode> nextQueue = new LinkedList<>();
-            Integer rightVal = null;
-            while(!queue.isEmpty()) {
+            int size = queue.size();
+            int candidate = 0;
+            while(size-- > 0) {
                 root = queue.poll();
-                rightVal = root.val;
-                if(root.left != null) nextQueue.offer(root.left);
-                if(root.right != null) nextQueue.offer(root.right);    
+                candidate = root.val;
+                if(root.left != null) queue.offer(root.left);
+                if(root.right != null) queue.offer(root.right);    
             }
-            if(rightVal != null) res.add(rightVal);
-            queue = nextQueue;
+            res.add(candidate);
         }
         return res;
     }
