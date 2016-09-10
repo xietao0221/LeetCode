@@ -7,7 +7,6 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
-// Recrusive Approach
 // insert (root.left -> tail) between root and root.right using in-order traversal 
 public class Solution {
     private TreeNode tail = null;

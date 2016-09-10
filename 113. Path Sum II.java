@@ -23,12 +23,14 @@ public class Solution {
             res.add(new ArrayList<>(tmpRes));
             return;
         }
+        
         if(root.left != null) {
-            pathSumHelper(root.left, sum-root.val, res, tmpRes);
+            pathSumHelper(root.left, sum - root.val, res, tmpRes);
             tmpRes.remove(tmpRes.size() - 1);
         }
+        
         if(root.right != null) {
-            pathSumHelper(root.right, sum-root.val, res, tmpRes);
+            pathSumHelper(root.right, sum - root.val, res, tmpRes);
             tmpRes.remove(tmpRes.size() - 1);
         }
     }
