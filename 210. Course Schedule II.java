@@ -1,3 +1,4 @@
+// BFS Approach
 public class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         if(prerequisites == null || prerequisites.length == 0) {
@@ -36,3 +37,54 @@ public class Solution {
         else return new int[0];
     }
 }
+
+// DFS Approach
+/*
+public class Solution {
+    private boolean[] visited, marked;
+    private List<Integer> res;
+    private boolean hasCycle = false;
+
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        List<Integer>[] graph = new ArrayList[numCourses];
+        visited = new boolean[numCourses];
+        marked = new boolean[numCourses];
+        res = new ArrayList<>();
+
+        // build prerequisites graph
+        for(int i = 0; i < numCourses; i++) graph[i] = new ArrayList<>();
+        for(int[] prerequisite: prerequisites) graph[prerequisite[1]].add(prerequisite[0]);
+
+        // search
+        for(int i = 0; i < numCourses && !hasCycle; i++) {
+            if(!marked[i]) findOrderHelper(graph, i);
+        }
+        if(hasCycle) return new int[0];
+        
+        // output result
+        int[] resArray = new int[numCourses];
+        for(int i = res.size() - 1; i >= 0; i--) {
+            resArray[numCourses - i - 1] = res.get(i);
+        }
+        return resArray;
+    }
+
+    private void findOrderHelper(List<Integer>[] graph, int pre) {
+        if(hasCycle) return;
+        
+        marked[pre] = true;
+        visited[pre] = true;
+
+        for(int i = 0; i < graph[pre].size(); i++) {
+            int post = graph[pre].get(i);
+            if(visited[post]) {
+                hasCycle = true;
+                return;
+            }
+            if(!marked[post]) findOrderHelper(graph, post);
+        }
+        res.add(pre);
+        visited[pre] = false;
+    }
+}
+*/
