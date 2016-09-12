@@ -1,38 +1,43 @@
 // BFS Approach
 public class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // if no prerequisites, just output all courses one by one
         if(prerequisites == null || prerequisites.length == 0) {
             int[] res = new int[numCourses];
             for(int i = 0; i < numCourses; i++) res[i] = i;
             return res;
         }
         
-        List<Integer>[] edges = new ArrayList[numCourses];
+        // build map of prerequisites
+        List<Integer>[] graph = new ArrayList[numCourses];
         int[] indegree = new int[numCourses];
         int[] res = new int[numCourses];
         int count = 0;
         
         for(int[] prerequisite: prerequisites) {
             int pre = prerequisite[1], post = prerequisite[0];
-            if(edges[pre] == null) edges[pre] = new ArrayList<>();
-            edges[pre].add(post);
+            if(graph[pre] == null) graph[pre] = new ArrayList<>();
+            graph[pre].add(post);
             indegree[post]++;
         }
-
+        
+        // select the course which has no prerequisite
         Queue<Integer> queue = new LinkedList<>();
         for(int i = 0; i < numCourses; i++) {
             if(indegree[i] == 0) queue.offer(i);
         }
 
+        // BFS
         while(!queue.isEmpty()) {
             int pre = queue.poll();
             res[count++] = pre;
-            if(edges[pre] == null) continue;
-            for(int post: edges[pre]) {
+            if(graph[pre] == null) continue;
+            for(int post: graph[pre]) {
                 if(--indegree[post] == 0) queue.offer(post);
             }
         }
         
+        // check if all courses are output
         if(count == numCourses) return res;
         else return new int[0];
     }
@@ -47,8 +52,8 @@ public class Solution {
 
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         List<Integer>[] graph = new ArrayList[numCourses];
-        visited = new boolean[numCourses];
         marked = new boolean[numCourses];
+        visited = new boolean[numCourses];
         res = new ArrayList<>();
 
         // build prerequisites graph
@@ -59,9 +64,10 @@ public class Solution {
         for(int i = 0; i < numCourses && !hasCycle; i++) {
             if(!marked[i]) findOrderHelper(graph, i);
         }
-        if(hasCycle) return new int[0];
         
         // output result
+        if(hasCycle) return new int[0];
+        
         int[] resArray = new int[numCourses];
         for(int i = res.size() - 1; i >= 0; i--) {
             resArray[numCourses - i - 1] = res.get(i);
