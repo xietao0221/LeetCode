@@ -14,23 +14,22 @@ public class Solution {
         List<List<Integer>> res = new ArrayList<>();
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        int level = 1;
+        int level = 0;
         
         while(!queue.isEmpty()) {
-            Queue<TreeNode> nextQueue = new LinkedList<>();
             List<Integer> tmpRes = new ArrayList<>();
-            while(!queue.isEmpty()) {
-                root = queue.poll();
-                
-                if(level % 2 == 1) tmpRes.add(root.val);
-                else tmpRes.add(0, root.val);
-                
-                if(root.left != null) nextQueue.offer(root.left);
-                if(root.right != null) nextQueue.offer(root.right);
-            }
-            res.add(tmpRes);
-            queue = nextQueue;
             level++;
+            int size = queue.size();
+            while(size-- > 0) {
+                TreeNode curr = queue.poll();
+                
+                if(level % 2 == 1) tmpRes.add(curr.val);
+                else tmpRes.add(0, curr.val);
+                
+                if(curr.left != null) queue.offer(curr.left);
+                if(curr.right != null) queue.offer(curr.right);
+            }
+            res.add(new ArrayList<>(tmpRes));
         }
         return res;
     }
