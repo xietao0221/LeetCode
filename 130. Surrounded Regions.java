@@ -14,8 +14,9 @@ public class Solution {
                 } else {
                     // union as many 'O' as possible
                     for(int[] dir: dirs) {
-                        if(board[i + dir[0]][j + dir[1]] == 'O') {
-                            set.union(set.getID(i, j), set.getID(i + dir[0], j + dir[1]));
+                        int newRow = i + dir[0], newCol = j + dir[1];
+                        if(board[newRow][newCol] == 'O') {
+                            set.union(set.getID(i, j), set.getID(newRow, newCol));
                         }
                     }
                 }
