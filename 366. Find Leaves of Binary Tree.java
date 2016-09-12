@@ -21,7 +21,7 @@ public class Solution {
         // must be max
         int level = 1 + Math.max(findLeavesHelper(root.left, res), findLeavesHelper(root.right, res));
         
-        if(res.size() < level + 1) res.add(new ArrayList<>());
+        if(level == res.size()) res.add(new ArrayList<>());
         res.get(level).add(root.val);
         
         return level;
