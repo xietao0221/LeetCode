@@ -48,3 +48,34 @@ public class Solution {
         return res;
     }
 }
+
+// DFS
+/*
+public class Solution {
+    public int depthSumInverse(List<NestedInteger> nestedList) {
+        if(nestedList == null) return 0;
+        
+        int level = getLevel(nestedList);
+        int res = getSum(nestedList, level);
+        return res;
+    }
+    
+    private int getLevel(List<NestedInteger> nestedList) {
+        int level = 0;
+        for(NestedInteger item: nestedList) {
+            if(item.isInteger()) level = Math.max(level, 1);
+            else level = Math.max(level, getLevel(item.getList()) + 1);
+        }
+        return level;
+    }
+    
+    private int getSum(List<NestedInteger> nestedList, int level) {
+        int res = 0;
+        for(NestedInteger item: nestedList) {
+            if(item.isInteger()) res += level * item.getInteger();
+            else res += getSum(item.getList(), level - 1);
+        }
+        return res;
+    }
+}
+*/
