@@ -1,9 +1,9 @@
-// https://discuss.leetcode.com/topic/31702/36-ms-c-solution
+// https://discuss.leetcode.com/category/397/shortest-distance-from-all-buildings
 public class Solution {
     public int shortestDistance(int[][] grid) {
         int[] res = new int[]{Integer.MAX_VALUE};
         int[][] distance = new int[grid.length][grid[0].length];
-        int[][] dirs = new int[][]{{0,1},{0,-1},{1,0},{-1,0}};
+        int[][] dirs = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         int visitMark = 0;
         
         for(int i = 0; i < grid.length; i++) {

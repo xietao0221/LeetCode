@@ -33,7 +33,7 @@ public class Solution {
 public class Solution {
     public int minTotalDistance(int[][] grid) {
         int[][] distance = new int[grid.length][grid[0].length];
-        int[][] dirs = new int[][]{{0,1},{0,-1},{1,0},{-1,0}};
+        int[][] dirs = new int[][]{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
         int visitMark = 0;
     
         for(int i = 0; i < grid.length; i++) {
@@ -65,6 +65,7 @@ public class Solution {
             
             while(size-- > 0) {
                 int[] curr = queue.poll();
+                visited[curr[0]][curr[1]] = true;
                 for(int[] dir: dirs) {
                     int newRow = curr[0] + dir[0], newCol = curr[1] + dir[1];
                     if(newRow >= 0 && newCol >= 0 && newRow < grid.length && newCol < grid[0].length 
