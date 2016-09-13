@@ -1,6 +1,7 @@
 public class Solution {
     public List<String> letterCombinations(String digits) {
         if(digits == null || digits.length() == 0) return new ArrayList<>();
+        
         char[] digitsArray = digits.toCharArray();
         Map<Character, char[]> map = new HashMap<>();
         List<String> res = new ArrayList<>();

@@ -7,7 +7,7 @@ public class Solution {
     }
     
     public void generateParenthesisHelper(List<String> res, StringBuilder tmpRes, int leftRem, int rightRem) {
-        //there must have one more ")" on the left of "("
+        // the remaining number of ')' cannot be smaller than the one of ')' => '())' is invalid
         if(leftRem < 0 || rightRem < leftRem) return;  
         
         // success
