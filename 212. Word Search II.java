@@ -1,31 +1,37 @@
 // https://discuss.leetcode.com/topic/33246/java-15ms-easiest-solution-100-00
 public class Solution {
     public List<String> findWords(char[][] board, String[] words) {
+        int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
         List<String> res = new ArrayList<>();
         TrieNode root = buildTrie(words);
+        
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[0].length; j++) {
-                dfs(board, root, i, j, res);
+                dfs(board, dirs, root, i, j, res);
             }
         }
         return res;
     }
     
-    public void dfs(char[][] board, TrieNode root, int row, int col, List<String> res) {
+    public void dfs(char[][] board, int[][] dirs, TrieNode root, int row, int col, List<String> res) {
+        if(row < 0 || col < 0 || row == board.length || col == board[0].length) return;
+        if(board[row][col] == '#' || root.children[board[row][col] - 'a'] == null) return;
+        
         char c = board[row][col];
-        if(c == '#' || root.children[c - 'a'] == null) return;
-
         String tmpWord = root.children[c - 'a'].word;
+        
         if(tmpWord != null) {
             res.add(tmpWord);
-            root.children[c - 'a'].word = null;     // delete word to avoid duplicates
+            root.children[c - 'a'].word = null;     // delete word to avoid duplicates, and keep searching, do not return
         }
 
         board[row][col] = '#';      // use '#' to represent this cell is visited
-        if(row > 0) dfs(board, root.children[c - 'a'], row - 1, col, res);
-        if(col > 0) dfs(board, root.children[c - 'a'], row, col - 1, res);
-        if(row < board.length-1) dfs(board, root.children[c - 'a'], row + 1, col, res);
-        if(col < board[0].length-1) dfs(board, root.children[c - 'a'], row, col + 1, res);
+        
+        for(int[] dir: dirs) {
+            int newRow = row + dir[0], newCol = col + dir[1];
+            dfs(board, dirs, root.children[c - 'a'], newRow, newCol, res);
+        }
+        
         board[row][col] = c;        // backtracking before return
     }
 
@@ -37,7 +43,7 @@ public class Solution {
                 if(tmp.children[c - 'a'] == null) tmp.children[c - 'a'] = new TrieNode();
                 tmp = tmp.children[c - 'a'];
             }
-            tmp.word = word;            // beautiful, avoid the searching
+            tmp.word = word;            // beautiful, avoid duplicates
         }
         return root;
     }
@@ -79,7 +85,8 @@ public class Solution {
             return;
         }
         
-        // if the current sb is a valid 'word', put it into result, and keep searching
+        // if the current sb is a valid 'word', put it into result, and keep searching and do not return
+        // Ex. search "a", "ab", "abc"
         if(root.search(sb.toString())) res.add(sb.toString());
 
         visited[row][col] = true;
@@ -134,6 +141,7 @@ public class Solution {
     class TrieNode {
         public boolean isEnd;
         public TrieNode[] children;
+        
         public TrieNode() {
             this.isEnd = false;
             this.children = new TrieNode[26];
