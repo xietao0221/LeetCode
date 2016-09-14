@@ -14,10 +14,10 @@ public class Solution {
             return;
         }
         
-        for(int i=pos; i<candidates.length && target >= candidates[i]; i++) {
+        for(int i = pos; i < candidates.length && target >= candidates[i]; i++) {
             // (i > pos) means candidates[i-1] is not added, because when candidates[i] is added
             // you call the dfs() and then i = pos; otherwise you skip the current loop and pos does not change
-            if(i > pos && candidates[i] == candidates[i-1]) continue;       // avoid duplicates
+            if(i > pos && candidates[i] == candidates[i - 1]) continue;       // avoid duplicates
             subResult.add(candidates[i]);
             combinationSum2Helper(candidates, target - candidates[i], i + 1);
             subResult.remove(subResult.size() - 1);

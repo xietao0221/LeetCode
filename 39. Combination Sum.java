@@ -14,7 +14,7 @@ public class Solution {
             return;
         }
         
-        for(int i=pos; i<candidates.length && target >= candidates[i]; i++) {
+        for(int i = pos; i < candidates.length && target >= candidates[i]; i++) {
             subResult.add(candidates[i]);
             combinationSumHelper(candidates, i, target - candidates[i]);
             subResult.remove(subResult.size() - 1);
