@@ -1,7 +1,7 @@
 // array
 public class Solution {
     public boolean isStrobogrammatic(String num) {
-        Character[] map = new Character[]{'0','1',null,null,null,null,'9',null,'8','6'};
+        Character[] map = new Character[]{'0', '1', null, null, null, null, '9', null, '8', '6'};
         char[] numArray = num.toCharArray();
         int left = 0, right = numArray.length - 1;
         while(left <= right) {
