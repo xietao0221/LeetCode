@@ -16,7 +16,7 @@ public class Solution {
         for(int i = 0; i < nums.length; i++) {
             // if the current element equals to the previous one, and we don't choose the previous one, continue
             // if we have choose this one, continue (because each round, we iterate the whole array)
-            if((i > 0 && nums[i] == nums[i-1] && !used[i-1]) || used[i]) continue;
+            if((i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) || used[i]) continue;
             
             used[i] = true;
             tmpList.add(nums[i]);
