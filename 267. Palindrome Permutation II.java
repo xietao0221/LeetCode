@@ -28,23 +28,24 @@ public class Solution {
             if(middle == null) res.add(sb.toString() + sb.reverse().toString());
             else res.add(sb.toString() + middle + sb.reverse().toString());
             sb.reverse();       // need to restore the original stringbuilder
-        } else {
-            for(int i = 0; i < list.size(); i++) {
-                // avoid duplicated !!! very important
-                // when a number has the same value with its previous, we can use this number only if his previous is used
-                // because if we choose the second one first, and then to the next recursion, the first one is added,
-                // duplicate occurs
-                if((i > 0 && list.get(i) == list.get(i - 1) && !used[i - 1]) || used[i]) continue;
-                
-                used[i] = true;
-                sb.append(list.get(i));
-                
-                getPermutation(used, sb);
-                
-                // backtracking
-                used[i] = false;
-                sb.deleteCharAt(sb.length() - 1);
-            }
+            return;
+        }
+        
+        for(int i = 0; i < list.size(); i++) {
+            // avoid duplicated !!! very important
+            // when a number has the same value with its previous, we can use this number only if his previous is used
+            // because if we choose the second one first, and then to the next recursion, the first one is added,
+            // duplicate occurs
+            if((i > 0 && list.get(i) == list.get(i - 1) && !used[i - 1]) || used[i]) continue;
+            
+            used[i] = true;
+            sb.append(list.get(i));
+            
+            getPermutation(used, sb);
+            
+            // backtracking
+            used[i] = false;
+            sb.deleteCharAt(sb.length() - 1);
         }
     }
 }
