@@ -7,6 +7,7 @@
  *     Interval(int s, int e) { start = s; end = e; }
  * }
  */
+// create a whole new intervals
 public class Solution {
     public List<Interval> merge(List<Interval> intervals) {
         if(intervals == null || intervals.size() < 2) return intervals;
@@ -43,3 +44,33 @@ public class Solution {
         }
     }
 }
+
+// modify intervals in-place
+/*
+public class Solution {
+    public List<Interval> merge(List<Interval> intervals) {
+        if(intervals == null || intervals.size() < 2) return intervals;
+        
+        Collections.sort(intervals, new IntervalComparator());
+        int left = 0, right = 1;
+        while(right < intervals.size()) {
+            int leftStart = intervals.get(left).start, leftEnd = intervals.get(left).end;
+            int rightStart = intervals.get(right).start, rightEnd = intervals.get(right).end;
+            
+            if(rightStart <= leftEnd) {
+                intervals.get(left).end = Math.max(leftEnd, rightEnd);
+                intervals.remove(right);
+            } else {
+                left = right++;
+            }
+        }
+        return intervals;
+    }
+    
+    class IntervalComparator implements Comparator<Interval> {
+        public int compare(Interval a, Interval b) {
+            return a.start == b.start ? a.end - b.end : a.start - b.start;
+        }
+    }
+}
+*/
