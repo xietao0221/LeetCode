@@ -1,16 +1,16 @@
 public class PhoneDirectory {
-    Set<Integer> used;
-    Queue<Integer> queue;
-    int max;
+    private Set<Integer> used;
+    private Queue<Integer> queue;
+    private int max;
     
     /** Initialize your data structure here
         @param maxNumbers - The maximum numbers that can be stored in the phone directory. */
     public PhoneDirectory(int maxNumbers) {
-        this.used = new HashSet<>();
-        this.queue = new LinkedList<>();
-        this.max = maxNumbers;
+        used = new HashSet<>();
+        queue = new LinkedList<>();
+        max = maxNumbers;
         for(int i = 0; i < maxNumbers; i++) {
-            this.queue.offer(i);
+            queue.offer(i);
         }
     }
     

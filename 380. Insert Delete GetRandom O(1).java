@@ -1,18 +1,19 @@
 public class RandomizedSet {
-    List<Integer> nums;
-    Map<Integer, Integer> map;      // value -> position
-    java.util.Random random;
+    private List<Integer> nums;
+    private Map<Integer, Integer> map;      // value -> position
+    private Random random;
     
     /** Initialize your data structure here. */
     public RandomizedSet() {
-        this.nums = new ArrayList<>();
-        this.map = new HashMap<>();
-        this.random = new java.util.Random();
+        nums = new ArrayList<>();
+        map = new HashMap<>();
+        random = new Random();
     }
     
     /** Inserts a value to the set. Returns true if the set did not already contain the specified element. */
     public boolean insert(int val) {
         if(map.containsKey(val)) return false;
+        
         map.put(val, nums.size());      // this size is the size before insert, so it is the position of new val
         nums.add(val);
         return true;
@@ -21,6 +22,7 @@ public class RandomizedSet {
     /** Removes a value from the set. Returns true if the set contained the specified element. */
     public boolean remove(int val) {
         if(!map.containsKey(val)) return false;
+        
         int currPos = map.get(val);
         // if 'val' is not the last one, swap it with the last one
         // because we want to truncate the map and nums by one
