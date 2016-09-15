@@ -1,11 +1,11 @@
 public class ValidWordAbbr {
-    Map<String, String> map;
+    private Map<String, String> map = new HashMap<>();
+    
     public ValidWordAbbr(String[] dictionary) {
-        map = new HashMap<String, String>();
         for(String str: dictionary){
             String abbr = getAbbreviation(str);
             if(map.containsKey(abbr) && !map.get(abbr).equals(str)) {
-                map.put(abbr, "");       // this key is invalid
+                map.put(abbr, "");
             } else {
                 map.put(abbr, str);
             }
@@ -21,7 +21,7 @@ public class ValidWordAbbr {
         }
     }
 
-    String getAbbreviation(String str){
+    private String getAbbreviation(String str){
         if(str.length() <= 2) return str;
         return str.charAt(0) + Integer.toString(str.length() - 2) + str.charAt(str.length() - 1);
     }

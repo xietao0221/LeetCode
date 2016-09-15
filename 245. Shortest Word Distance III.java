@@ -3,6 +3,8 @@ public class Solution {
         int res = Integer.MAX_VALUE, index1 = words.length - 1, index2 = words.length - 1;
         for(int i = 0; i < words.length; i++) {
             if(words[i].equals(word1)) {                            //find word1
+                // if word1 == word2, its index is always be saved in index1
+                // only deal with 'two words are the same' condition in this branch
                 if(word1.equals(word2)) res = Math.min(res, Math.abs(i - index1));
                 else res = Math.min(res, Math.abs(i - index2));
                 index1 = i;
