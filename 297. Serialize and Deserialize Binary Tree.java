@@ -8,7 +8,6 @@
  * }
  */
 public class Codec {
-
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
         if(root == null) return null;
@@ -21,13 +20,13 @@ public class Codec {
         
         while(!queue.isEmpty() && keepgoing) {
             keepgoing = false;
-            Queue<TreeNode> nextQueue = new LinkedList<>();
-            while(!queue.isEmpty()) {
+            int size = queue.size();
+            while(size-- > 0) {
                 TreeNode curr = queue.poll();
                 
                 if(curr.left != null) {
                     sb.append(curr.left.val).append(",");
-                    nextQueue.offer(curr.left);
+                    queue.offer(curr.left);
                     if(curr.left.left != null || curr.left.right != null) keepgoing = true;
                 } else {
                     sb.append("null,");
@@ -35,13 +34,12 @@ public class Codec {
                 
                 if(curr.right != null) {
                     sb.append(curr.right.val).append(",");
-                    nextQueue.offer(curr.right);
+                    queue.offer(curr.right);
                     if(curr.right.left != null || curr.right.right != null) keepgoing = true;
                 } else {
                     sb.append("null,");
                 }
             }
-            queue = nextQueue;
         }
         return sb.substring(0, sb.length() - 1).toString();
     }
