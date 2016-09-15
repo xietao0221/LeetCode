@@ -1,10 +1,11 @@
 public class WordDictionary {
     private TrieNode root = new TrieNode();
-    private Map<String, Boolean> memo = new HashMap<>();
+    private Set<String> set = new HashSet<>();
     
     // Adds a word into the data structure.
     public void addWord(String word) {
-        if(memo.containsKey(word) && memo.get(word)) return;
+        if(set.contains(word)) return;
+        
         TrieNode tmp = root;
         for(int i = 0; i < word.length(); i++) {
             char c = word.charAt(i);
@@ -12,18 +13,18 @@ public class WordDictionary {
             tmp = tmp.children[c - 'a'];
         }
         tmp.isEnd = true;
-        memo.put(word, true);
+        set.add(word);
     }
 
     // Returns if the word is in the data structure. A word could
     // contain the dot character '.' to represent any one letter.
     public boolean search(String word) {
         if(word == null || word.length() == 0) return false;
-        if(memo.containsKey(word)) return memo.get(word);
+        if(set.contains(word)) return true;
         
+        // only update map if the word is searched, because next time this word may be added
         if(searchHelper(word, 0, root)) {
-            // only update map if the word is searched, because next time this word may be added
-            memo.put(word, true);
+            set.add(word);
             return true;
         } else {
             return false;
@@ -58,12 +59,12 @@ public class WordDictionary {
     }
 
     class TrieNode {
-        boolean isEnd;
-        TrieNode[] children;
+        public boolean isEnd;
+        public TrieNode[] children;
         
         public TrieNode() {
-            this.isEnd = false;
-            this.children = new TrieNode[26];
+            isEnd = false;
+            children = new TrieNode[26];
         }
     }
 }

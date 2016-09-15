@@ -13,23 +13,24 @@ public class BSTIterator {
     private int size, index;
     
     public BSTIterator(TreeNode root) {
-        this.list = new ArrayList<>();
+        list = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
         
         // iterative in-order traversal using stack
         TreeNode curr = root;
         while(curr != null || !stack.isEmpty()) {
-            while(curr != null) {
+            if(curr != null) {
                 stack.add(curr);
                 curr = curr.left;
+            } else {
+                curr = stack.pop();
+                list.add(curr.val);
+                curr = curr.right;    
             }
-            curr = stack.pop();
-            list.add(curr.val);
-            curr = curr.right;
         }
         
-        this.size = list.size();
-        this.index = 0;
+        size = list.size();
+        index = 0;
     }
 
     /** @return whether we have a next smallest number */
