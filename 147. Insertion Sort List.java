@@ -9,13 +9,13 @@
 public class Solution {
     public ListNode insertionSortList(ListNode head) {
         if(head == null || head.next == null) return head;
+        
         ListNode newHead = head, newTail = head, target = head.next;
         while(target != null) {
             ListNode nextTarget = target.next;
             
             if(target.val <= newHead.val) {
                 // target is smaller than the head, insert it before the head
-                newTail.next = nextTarget;
                 target.next = newHead;
                 newHead = target;
             } else if(target.val >= newTail.val) {

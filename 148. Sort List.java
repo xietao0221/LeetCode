@@ -9,6 +9,7 @@
 public class Solution {
     public ListNode sortList(ListNode head) {
         if (head == null || head.next == null) return head;
+        
         ListNode slow = head, fast = head, pre = head;
         
         // slow is the head of second part, 
@@ -23,6 +24,8 @@ public class Solution {
     }
     
     // it is '21. Merge Two Sorted Lists'
+    // because it is the part of merge sort, in this function, we just need to make one step
+    // we do not need while loop and dummy node
     private ListNode merge(ListNode l1, ListNode l2) {
         if(l1 == null) return l2;
         if(l2 == null) return l1;
