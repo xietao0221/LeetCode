@@ -26,9 +26,8 @@ public class Solution {
                 // target should be in the middle of sorted list, find the right place
                 ListNode curr = newHead;
                 while(curr.next != null && curr.next.val <= target.val) curr = curr.next;
-                ListNode next = curr.next;
+                target.next = curr.next;
                 curr.next = target;
-                target.next = next;
             }
             
             target = nextTarget;
