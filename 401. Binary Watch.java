@@ -27,10 +27,9 @@ public class Solution {
             res.add(sum);
             return;
         }
-
-        if(pos == nums.length) return;
-
-        generateDigitHelper(nums, count - 1, pos + 1, sum + nums[pos], res);
-        generateDigitHelper(nums, count, pos + 1, sum, res);
+        
+        for(int i = pos; i < nums.length; i++) {
+            generateDigitHelper(nums, count - 1, i + 1, sum + nums[i], res);    
+        }
     }
 }
