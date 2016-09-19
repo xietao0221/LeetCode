@@ -7,12 +7,19 @@ public class Solution {
     
     private boolean canCrossHelper(int[] stones, int pos, int k) {
         if(pos == stones.length - 1) return true;
+        
         for(int i = pos + 1; i < stones.length; i++) {
             int jump = stones[i] - stones[pos];
-            if(jump >= k - 1 && jump <= k + 1) {
+            
+            if(jump < k - 1) {
+                continue;
+            } else if(jump <= k + 1) {
                 if(canCrossHelper(stones, i, jump)) return true;
+            } else {
+                return false;
             }
         }
+        
         return false;
     }
 }
