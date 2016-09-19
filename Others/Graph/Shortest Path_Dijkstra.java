@@ -1,4 +1,4 @@
-// deal with shortest path problem using Priority Queue. Cannot deal with graph with negative edges.
+// deal with shortest path problem using Priority Queue, graph is not DAG. Cannot deal with graph with negative edges.
 // Dijikstra is similar to Prim MST, Dijikstra focus on the distance between starting point and itself, rather than every connect weight.
 // Time Complexity: O(VlogE)
 // Space Complexity: O(V + E)
