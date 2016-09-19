@@ -1,15 +1,17 @@
+// deal with MST problem using Priority Queue, similar to Dijkstra, but Prim focus on the connect weight rather than the 
+// weight from starting point to itself. Could solve graph with both positive and negative edges
+// Time Complexity: O(ElogV)
+// Space Complexity: O(E + V)
 public class Solution {
-    // the first line is starting point
-    // the rest of lines are edges based on the rule: "vertex1 vertex2 weight"
-    public List<Vertex> dijikstra(List<String> input) {
-        Map<String, Vertex> vertice = new HashMap<>();          // <vertex name, vertex obj>
+    public List<String> primMST(List<String> input) {
+        Map<String, Vertex> vertice = new HashMap<>();
         PriorityQueue<Vertex> queue = new PriorityQueue<>();
-        Set<Vertex> res = new HashSet<>();
+        Set<Vertex> visited = new HashSet<>();
+        List<String> res = new ArrayList<>();
+        Vertex startingVertex = null;
 
         // build graph
-        Vertex startingPoint = new Vertex(input.get(0));
-        vertice.put(startingPoint.str, startingPoint);
-        for(int i = 1; i < input.size(); i++) {
+        for(int i = 0; i < input.size(); i++) {
             String[] edge = input.get(i).split(" ");
             int weight = Integer.parseInt(edge[2]);
 
@@ -18,44 +20,45 @@ public class Solution {
 
             vertice.get(edge[0]).neighbors.add(new Edge(vertice.get(edge[0]), vertice.get(edge[1]), weight));
             vertice.get(edge[1]).neighbors.add(new Edge(vertice.get(edge[1]), vertice.get(edge[0]), weight));
+
+            if(i == 0) startingVertex = vertice.get(edge[0]);
         }
 
-        // offer all vertex into Priority Queue
-        startingPoint.distance = 0;
-        for(Vertex vertex: vertice.values()) queue.offer(vertex);
+        // put all vertice into priority queue
+        for(Vertex curr: vertice.values()) queue.offer(curr);
+        startingVertex.distance = 0;
 
-        // BFS with PriorityQueue
-        // each time poll out the smallest distance(itself->startingPoint)
+        //
         while(!queue.isEmpty()) {
             Vertex curr = queue.poll();
-            res.add(curr);
+            visited.add(curr);
+
             for(Edge edge: curr.neighbors) {
+                if(visited.contains(edge.destination)) continue;
 
-                // if(!queue.contains(edge.destination)) continue;  // avoid use PQ's contain: O(n) complexity
-                if(res.contains(edge.destination)) continue;
-
-                int currDist = curr.distance + edge.weight;
-                if(currDist < edge.destination.distance) {
-                    // cannot change PriorityQueue's key, we have to remove it and insert it again
+                if(edge.weight < edge.destination.distance) {
                     queue.remove(edge.destination);
 
-                    // change parent vertex and distance
-                    edge.destination.distance = currDist;
-                    edge.destination.parent = curr;
+                    edge.destination.distance = edge.weight;
+                    edge.destination.introduceBy = curr;
 
-                    // insert it again
                     queue.offer(edge.destination);
                 }
             }
         }
-        return new ArrayList<>(res);
+
+        // output the result
+
+        for(Vertex curr: visited) res.add(curr.str + "-" + (curr.introduceBy == null ? "" : curr.introduceBy.str));
+        return res;
     }
+
 
     class Vertex implements Comparable<Vertex> {
         public String str;                                  // vertex name
         public List<Edge> neighbors = new ArrayList<>();    // neighbor edge
-        public Vertex parent = null;                        // the parent vertex on shortest path
-        public int distance = Integer.MAX_VALUE;            // the distance to starting point on shortest path
+        public Vertex introduceBy = null;                   // the introduce vertex on MST
+        public int distance = Integer.MAX_VALUE;            // the distance between itself and introduce vertex
 
         public Vertex(String str) {
             this.str = str;
@@ -66,7 +69,7 @@ public class Solution {
         }
 
         public String toString() {
-            return str + ":" + distance;
+            return str;
         }
     }
 
