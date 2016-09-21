@@ -1,3 +1,8 @@
+/*
+sign can only be seen at the beginning or right after '.'
+'.' can only be seen once, and can not be seen after 'e'
+'e' can only be seen after numbers
+*/
 public class Solution {
     public boolean isNumber(String s) {
         boolean numberSeen = false, eSeen = false, dotSeen = false;
