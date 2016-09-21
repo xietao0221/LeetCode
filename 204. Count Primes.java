@@ -4,7 +4,7 @@ public class Solution {
         
         int count = n - 2;      // 1 and 2 are not prime numbers
         boolean[] isPrime = new boolean[n];
-        for(int i = 0; i < n; i++) isPrime[i] = true;
+        Arrays.fill(isPrime, true);
         
         for(int i = 2; i * i <= n; i++) {
             if(!isPrime[i]) continue;
