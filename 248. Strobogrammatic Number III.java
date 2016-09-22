@@ -24,15 +24,11 @@ public class Solution {
         }
         
         for(char[] pair: pairs) {
+            if(len > 1 && left == 0 && pair[0] == '0') continue;
+            if(left == right && (pair[0] == '6' || pair[0] == '9')) continue;
+            
             sArray[left] = pair[0];
             sArray[right] = pair[1];
-            
-            // avoid the first digit is 0
-            if(len > 1 && sArray[0] == '0') continue;
-            
-            // if only one digit left, we cannot choose 6 or 9
-            if(left == right && (sArray[left] == '6' || sArray[left] == '9')) continue;
-            
             strobogrammaticInRangeHelper(len, sArray, left + 1, right - 1);
         }
     }
