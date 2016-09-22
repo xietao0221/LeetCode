@@ -1,7 +1,7 @@
 /*
-1 - 9:      [1, 1 + 9 * 1]
-10 - 99:    [10, 10 + 90 * 2]
-100 - 999:  [190, 190 + 900 * 3]
+1 - 9:      [1, 1 + 9 * 1)
+10 - 99:    [10, 10 + 90 * 2)
+100 - 999:  [190, 190 + 900 * 3)
 */
 public class Solution {
     public int findNthDigit(int n) {
@@ -17,8 +17,9 @@ public class Solution {
         }
         
         // find the specific number
-        int target = start + (n - 1) / len;
+        n--;            // not zero based
+        int target = start + n / len;
         String s = Integer.toString(target);
-        return Character.getNumericValue(s.charAt((n - 1) % len));
+        return s.charAt(n % len) - '0';
     }
 }

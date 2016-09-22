@@ -16,18 +16,22 @@ public class Solution {
         int[] dp = new int[nums.length], parent = new int[nums.length];
         int size = 0, index = 0;
         List<Integer> res = new ArrayList<>();
-        Arrays.sort(nums);
+        Arrays.sort(nums);              // must sort the array
         
         // the starting point
         for(int i = nums.length - 1; i >= 0; i--) {
             // the ending point
             for(int j = i; j < nums.length; j++) {
+                // regard j as the smallest element in the potential subset, 
+                // if nums[j] % nums[i] == 0, i can be added to it
                 if(nums[j] % nums[i] == 0 && dp[j] + 1 > dp[i]) {
                     dp[i] = dp[j] + 1;
                     parent[i] = j;
+                    
+                    // check global-max
                     if(dp[i] > size) {
                         size = dp[i];
-                        index = i;
+                        index = i;      // index saves the smallest index of potential result
                     }
                 }
             }
