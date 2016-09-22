@@ -35,7 +35,7 @@ public class Solution {
         for(int i = 0; i < s.length(); i++) {
             if(i > 9) hashCode -= baseSub * trans.get(s.charAt(i - 10));
             hashCode = 4 * hashCode + trans.get(s.charAt(i));
-            if(i > 8 && !hashes.add(hashCode)) res.add(s.substring(i - 9, i + 1));
+            if(i >= 9 && !hashes.add(hashCode)) res.add(s.substring(i - 9, i + 1));
         }
         return new ArrayList<>(res);
     }
