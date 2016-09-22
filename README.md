@@ -338,4 +338,10 @@ Subarray and Subsequence: (209, 354, 300)
 - Subarray, Substring(contiguous array), Subsequence(could delete some characters)
 - use hash map or hash set to save Point Class: (1) override equals() and hashcode() methods in Point Class (2) define MyPoint Class to composite Point Class and define equals() and hashcode() (3) inheritate Point using ‘class MyPoint extends Point {}’ and define equals() and hashcode()
 - TreeMap: lastKey() -> get the highest key value
+- LinkedList: poll()/peek() is the oldest one, pollLast()/peekLast() is the newest one
 - PriorityQueue: the default is min heap, queue.peek()/poll() is the smallest value; if use PriorityQueue as a sliding window, it always keep the k largest numbers
+- offer()/pollLast()/peekLast() [---> queue --->] poll()/peek()
+- offerLast()/peekLast() [---> deque --->] pollFirst()/peekFirst()
+
+Interface, implements, composition
+Class, extends, inheritance
