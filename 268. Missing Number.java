@@ -3,6 +3,7 @@ public class Solution {
     public int missingNumber(int[] nums) {
         for(int i = 0; i < nums.length; i++) {
             while(i != nums[i] && nums[i] < nums.length) {
+                // swap two numbers at i and nums[i]
                 int tmp = nums[nums[i]];
                 nums[nums[i]] = nums[i];
                 nums[i] = tmp;
