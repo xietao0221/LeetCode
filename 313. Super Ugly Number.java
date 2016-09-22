@@ -1,4 +1,4 @@
-// the same as '264. Ugly Number II'
+// DP Solution
 public class Solution {
     public int nthSuperUglyNumber(int n, int[] primes) {
         int[] count = new int[primes.length];
@@ -18,3 +18,19 @@ public class Solution {
         return dp[n - 1];
     }
 }
+
+// PriorityQueue Solution
+/*
+public class Solution {
+    public int nthSuperUglyNumber(int n, int[] primes) {
+        PriorityQueue<Long> queue = new PriorityQueue<>();
+        queue.offer((long)1);
+        while(n-- > 1) {
+            long curr = queue.poll();
+            while(!queue.isEmpty() && queue.peek() == curr) queue.poll(); 
+            for(int prime: primes) queue.offer(curr * prime); 
+        }
+        return queue.poll().intValue();
+    }
+}
+*/

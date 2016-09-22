@@ -1,8 +1,10 @@
 public class Solution {
     private String[] numbers = new String[]{"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
+    
     private String[] tens = new String[]{"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", 
         "Seventy", "Eighty", "Ninety"};
+    
     private String[] thunsands = new String[]{"Billion", "Million", "Thousand", ""};
     private int[] radix = new int[]{1000000000, 1000000, 1000, 1};
     
