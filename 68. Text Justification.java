@@ -25,7 +25,7 @@ public class Solution {
                 sb.append(words[start++]);
                 strLen += words[start-1].length();
                 if(strLen < maxWidth) {
-                    sb = fillSpace(sb, base);
+                    fillSpace(sb, base);
                     strLen += base;
                 }
                 if(extra-- > 0) {
@@ -40,8 +40,7 @@ public class Solution {
         return res;
     }
     
-    private StringBuilder fillSpace(StringBuilder sb, int num) {
+    private void fillSpace(StringBuilder sb, int num) {
         while(num-- > 0) sb.append(' ');
-        return sb;
     }
 }
