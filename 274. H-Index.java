@@ -1,3 +1,5 @@
+// A scientist has index h if h of his/her N papers have at least h citations each, 
+// and the other N − h papers have no more than h citations each.
 // https://discuss.leetcode.com/topic/23307/my-o-n-time-solution-use-java/33
 // bucket sort
 public class Solution {
@@ -19,18 +21,24 @@ public class Solution {
     }
 }
 
-// brute force
+// binary search
 /*
 public class Solution {
     public int hIndex(int[] citations) {
         if(citations == null || citations.length == 0) return 0;
         
-        int len = citations.length;
         Arrays.sort(citations);
-        for(int i = 0; i < len; i++) {
-            if(citations[i] >= len - i) return len - i;
+        int len = citations.length, left = 0, right = len - 1, mid = 0, res = 0;
+        while(left <= right) {
+            mid = left + (right - left) / 2;
+            if(citations[mid] >= len - mid) {
+                res = len - mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
         }
-        return 0;
+        return res;
     }
 }
 */
