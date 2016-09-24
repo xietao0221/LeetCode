@@ -7,6 +7,41 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+// pre-order traversal
+public class Codec {
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        if(root == null) return "# ";
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(root.val).append(" ");
+        sb.append(serialize(root.left));
+        sb.append(serialize(root.right));
+
+        return sb.toString();
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] inputs = data.split(" ");
+        int[] index = new int[]{0};
+        return deserializeHelper(inputs, index);
+    }
+    
+    private TreeNode deserializeHelper(String[] input, int[] index) {
+        String curr = input[index[0]++];
+
+        if(curr.equals("#")) return null;
+
+        TreeNode root = new TreeNode(Integer.parseInt(curr));
+        root.left = deserializeHelper(input, index);
+        root.right = deserializeHelper(input, index);
+        return root;
+    }
+}
+
+// level-order Traversal
+/*
 public class Codec {
     // Encodes a tree to a single string.
     public String serialize(TreeNode root) {
@@ -69,6 +104,7 @@ public class Codec {
         return root;
     }
 }
+*/
 
 // Your Codec object will be instantiated and called as such:
 // Codec codec = new Codec();
