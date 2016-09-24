@@ -5,7 +5,7 @@ public class Solution {
     /** @param head The linked list's head. Note that the head is guanranteed to be not null, so it contains at least one node. */
     public Solution(ListNode head) {
         this.head = head;
-        this.random = new java.util.Random();
+        random = new Random();
     }
     
     /** Returns a random node's value. */
