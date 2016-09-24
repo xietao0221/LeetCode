@@ -8,10 +8,11 @@ public class Solution {
     }
     
     public int pick(int target) {
-        int res = -1, count = 0;
+        int res = 0, count = 0;
         for(int i = 0; i < nums.length; i++) {
-            if(nums[i] != target) continue;
-            if(random.nextInt(++count) == 0) res = i;
+            if(nums[i] == target) {
+                if(random.nextInt(++count) == 0) res = i;
+            }
         }
         return res;
     }
