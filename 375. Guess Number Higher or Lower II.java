@@ -2,15 +2,28 @@
 // iterative approach
 public class Solution {
     public int getMoneyAmount(int n) {
+        // dp[i][j] represents the min-cost of [i, j]
         int[][] dp = new int[n + 1][n + 1];
-        for(int right = 2; right <= n; right++) {
-            for(int left = right - 1; left >= 1; left--) {
+        
+        for(int len = 1; len < n; len++) {
+            for(int left = 1; left <= n - len; left++) {
+                int right = left + len;
+                
+                // Ex. for [1, 2], 1 is the min-cost
+                if(left + 1 == right) {
+                    dp[left][right] = left;
+                    continue;
+                }
+                
+                // for [left, right], check every middle point
+                // max: whenever you choose a number, the feedback is always bad, and leads you to a worse branch.
+                // min: makes sure that you are minimizing your cost.
                 int min = Integer.MAX_VALUE;
                 for(int mid = left + 1; mid < right; mid++) {
                     int max = mid + Math.max(dp[left][mid - 1], dp[mid + 1][right]);
                     min = Math.min(min, max);
                 }
-                dp[left][right] = left + 1 == right ? left : min;
+                dp[left][right] = min;
             }
         }
         return dp[1][n];
