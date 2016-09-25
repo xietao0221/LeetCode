@@ -9,6 +9,7 @@ public class Solution extends GuessGame {
         while(low < high) {
             mid = low + (high - low) / 2;
             int sol = guess(mid);
+            
             if(sol == 0) {
                 return mid;
             } else if(sol == -1) {
