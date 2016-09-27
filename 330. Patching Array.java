@@ -12,9 +12,11 @@ public class Solution {
         int index = 0, res = 0;
         while(max < n) {
             if(index < nums.length && max + 1 >= nums[index]) {
+                // index should be valid, and max + 1 should cover nums[i]
                 max += nums[index++];
             } else {
-                // at this time, new added number is (max + 1)
+                // at this time, if we keep adding nums[i], there must be a gap in between
+                // so we add (max + 1)
                 max += max + 1;
                 res++;
             }
