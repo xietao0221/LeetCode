@@ -3,7 +3,7 @@
 // notes that the new cell's height is the new height if water is poured.
 public class Solution {
     public int trapRainWater(int[][] heightMap) {
-        if(heightMap == null || heightMap.length <= 1 || heightMap[0].length <= 1) return 0;
+        if(heightMap == null || heightMap.length <= 2 || heightMap[0].length <= 2) return 0;
         
         // save all bounder cells into queue
         PriorityQueue<Cell> queue = new PriorityQueue<>();
