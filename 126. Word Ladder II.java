@@ -36,9 +36,7 @@ public class Solution {
                         done = true;
                         if(!graph.containsKey(key)) graph.put(key, new ArrayList<>());
                         graph.get(key).add(val);
-                    }
-
-                    if (!done && wordList.contains(target)) {
+                    } else if (wordList.contains(target)) {
                         nextBeginSet.add(target);
                         if(!graph.containsKey(key)) graph.put(key, new ArrayList<>());
                         graph.get(key).add(val);

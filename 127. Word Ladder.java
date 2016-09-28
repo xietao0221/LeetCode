@@ -23,7 +23,7 @@ public class Solution {
                     String target = new String(wordArray);
 
                     if (endSet.contains(target)) return count + 1;
-                    if (dict.contains(target)) nextBeginSet.add(target);
+                    else if (dict.contains(target)) nextBeginSet.add(target);
                 }
             }
         }
