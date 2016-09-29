@@ -1,12 +1,10 @@
 public class LRUCache {
     private int capacity;
-    private LinkedList<CacheNode> list;
-    private HashMap<Integer, CacheNode> map;
+    private Map<Integer, CacheNode> map;
     private CacheNode head, tail;
     
     public LRUCache(int capacity) {
         this.capacity = capacity;
-        list = new LinkedList<>();
         map = new HashMap<>();
         head = new CacheNode(0, 0);
         tail = new CacheNode(0, 0);
@@ -69,7 +67,7 @@ public class LRUCache {
         public int key, value;
         public CacheNode prev = null, next = null;
         
-        public CacheNode(int k, int v) {
+        public CacheNode(int key, int value) {
             this.key = k;
             this.value = v;
         }
