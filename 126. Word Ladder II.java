@@ -44,7 +44,7 @@ public class Solution {
                 }
             }
         }
-        return done || buildGraph(wordList, endSet, nextBeginSet, graph, !flip);
+        return done || buildGraph(wordList, nextBeginSet, endSet, graph, flip);
     }
 
     private void outputPath(String start, String end, Map<String, List<String>> graph,

@@ -27,6 +27,6 @@ public class Solution {
                 }
             }
         }
-        return buildGraph(dict, endSet, nextBeginSet, !flip, count + 1);
+        return buildGraph(dict, nextBeginSet, endSet, flip, count + 1);
     }
 }
