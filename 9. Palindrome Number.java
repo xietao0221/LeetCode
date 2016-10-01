@@ -4,18 +4,24 @@ public class Solution {
         
         int len = 1, temp = x;
         while(temp > 9) {
-            temp = temp / 10;
+            temp /= 10;
             len++;
         }
         
         for(int i = 0; i < len / 2; i++) {
-            if(getIthDigit(x, len, i) != getIthDigit(x, len, len - 1 - i)) return false;
+            if(!isValid(x, len, i)) return false;
         }
         return true;
     }
     
-    public int getIthDigit(int x, int len, int index) {
-        while(index-- > 0) x = x / 10;
-        return x % 10;
+    public boolean isValid(int x, int len, int index) {
+        int first = 0, second = 0, firstIndex = index, secondIndex = len - 1 - index;
+        
+        for(int i = 0; i <= len - 1 - index; i++) {
+            if(i == firstIndex) first = x % 10;
+            else if(i == secondIndex) second = x % 10;
+            x /= 10;
+        }
+        return first == second;
     }
 }
