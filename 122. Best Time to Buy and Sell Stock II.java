@@ -1,4 +1,6 @@
 // Solution1
+// 1 2 3 0 1 3 2 6
+// ----- ----- ---
 public class Solution {
     public int maxProfit(int[] prices) {
         int res = 0;
