@@ -3,7 +3,7 @@ public class Solution {
         if(divisor == 0 || (dividend == Integer.MIN_VALUE && divisor == -1)) return Integer.MAX_VALUE;
         if(divisor == 1) return dividend;
         
-        int sign = (dividend < 0) ^ (divisor < 0) ? -1 : 1;
+        boolean sign = !((dividend < 0) ^ (divisor < 0));
         int res = 0;
         long dividendLong = Math.abs((long)dividend), divisorLong = Math.abs((long)divisor);
         
@@ -18,6 +18,6 @@ public class Solution {
             dividendLong -= tmp;
             res += count;
         }
-        return sign > 0 ? res : -res;
+        return sign ? res : -res;
     }
 }

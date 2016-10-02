@@ -5,7 +5,7 @@ public class Solution {
         List<Integer> res = new ArrayList<>();
         int len = words[0].length(), size = words.length, count = 0, begin = 0, end = 0;
         if(size == 0 || s.length() < len * size) return res;
-        
+
         // store all word in map
         for(String word: words) map.put(word, map.containsKey(word) ? map.get(word) + 1 : 1);
 
@@ -18,35 +18,35 @@ public class Solution {
             count = 0;
             begin = i;
             end = begin;
-            
+
             // '76. Minimum Window Substring'
             while(end <= s.length() - len) {
                 String target = s.substring(end, end + len);
                 end += len;
                 if(map.containsKey(target)) {
-                    currMap.put(target, currMap.containsKey(target) ? currMap.get(target) + 1 : 1);
-
                     // put one word into window
-                    if(currMap.get(target) <= map.get(target)) {
-                        count++;
-                    } else {
-                        // if there are duplicates in the window, we should shrink the window until duplicates gone
-                        while(currMap.get(target) > map.get(target)) {
-                            String removed = s.substring(begin, begin + len);
-                            begin += len;
-                            currMap.put(removed, currMap.get(removed) - 1);
-                            if(currMap.get(removed) < map.get(removed)) count--;
-                        }    
+                    currMap.put(target, currMap.containsKey(target) ? currMap.get(target) + 1 : 1);
+                    count++;
+                    
+                    // if duplicates included
+                    // we should shrink the window until duplicates gone, target is the duplicate
+                    while(currMap.get(target) > map.get(target)) {
+                        String removed = s.substring(begin, begin + len);
+                        currMap.put(removed, currMap.get(removed) - 1);
+                        count--;
+                        begin += len;
                     }
                     
                     // if all words are in the window, add index of begin into list
                     // and then shrink the window by removing one left-most word
                     if(count == size) {
                         res.add(begin);
+
+                        // shrink one word down
                         String removed = s.substring(begin, begin + len);
-                        begin += len;
                         currMap.put(removed, currMap.get(removed) - 1);
-                        count--;    // do not need to check (currMap.get(removed) < map.get(removed)), because it must be
+                        count--;
+                        begin += len;
                     }
                 } else {
                     // end this substring search immediately, and set index of begin as the one of end
