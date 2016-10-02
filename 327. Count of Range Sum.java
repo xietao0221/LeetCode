@@ -1,48 +1,37 @@
-// https://discuss.leetcode.com/topic/34108/summary-of-the-divide-and-conquer-based-and-binary-indexed-tree-based-solutions/4
-// Binary Indexed Tree
+// https://discuss.leetcode.com/topic/33738/share-my-solution/2
+// Merge Sort
 public class Solution {
     public int countRangeSum(int[] nums, int lower, int upper) {
-        long[] sums = new long[nums.length + 1], candidates = new long[3 * sums.length + 1];
-        int[] fenwickTree = new int[candidates.length];
-        
-        int index = 0;
-        candidates[index++] = sums[0];
-        candidates[index++] = lower + sums[0] - 1;
-        candidates[index++] = upper + sums[0];
-        for(int i = 1; i < sums.length; i++) {
-            sums[i] = nums[i - 1] + sums[i - 1];
-            candidates[index++] = sums[i];
-            candidates[index++] = lower + sums[i] - 1;
-            candidates[index++] = upper + sums[i];
+        long[] sums = new long[nums.length + 1];
+        for (int i = 1; i <= nums.length; ++i) {
+            sums[i] = sums[i - 1] + nums[i - 1];
         }
-        candidates[index] = Long.MIN_VALUE;
-        Arrays.sort(candidates);
+        return countWhileMergeSort(sums, 0, sums.length, lower, upper);
+    }
 
-        // build the fenwick tree
-        for(int i = 0; i < sums.length; i++) {
-            updateFenwickTree(fenwickTree, Arrays.binarySearch(candidates, sums[i]), 1);
+    private int countWhileMergeSort(long[] sums, int start, int end, int lower, int upper) {
+        if (end - start <= 1) return 0;
+
+        int mid = (start + end) / 2;
+        int count = countWhileMergeSort(sums, start, mid, lower, upper)
+                + countWhileMergeSort(sums, mid, end, lower, upper);
+
+        int k = mid, j = mid, r = 0, t = mid;
+        long[] cache = new long[end - start];
+
+        for (int i = start; i < mid; i++) {
+            // find out j, k for calculation of count in [lower, upper]
+            while (k < end && sums[k] - sums[i] < lower) k++;
+            while (j < end && sums[j] - sums[i] <= upper) j++;
+            count += j - k;
+
+            // merge to cache
+            while (t < end && sums[t] < sums[i]) cache[r++] = sums[t++];
+            cache[r++] = sums[i];
         }
 
-        int count = 0;
-        for(int i = 1; i < sums.length; i++) {
-            updateFenwickTree(fenwickTree, Arrays.binarySearch(candidates, sums[i - 1]), -1);
-            count += getSum(fenwickTree, Arrays.binarySearch(candidates, upper + sums[i - 1]));
-            count -= getSum(fenwickTree, Arrays.binarySearch(candidates, lower + sums[i - 1] - 1));
-        }
+        // copy back
+        System.arraycopy(cache, 0, sums, start, t - start);
         return count;
-    }
-
-    private void updateFenwickTree(int[] fenwickTree, int index, int value) {
-        for(int i = index; i < fenwickTree.length; i += i & (-i)) {
-            fenwickTree[i] += value;
-        }
-    }
-
-    private int getSum(int[] fenwickTree, int index) {
-        int sum = 0;
-        for(int i = index; i > 0; i -= i & (-i)) {
-            sum += fenwickTree[i];
-        }
-        return sum;
     }
 }

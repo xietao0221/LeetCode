@@ -7,33 +7,56 @@
  * */
 public class Solution {
     public void mergeSort(int[] nums) {
-        int[] helper = new int[nums.length];
-        mergeSort(nums, helper, 0, nums.length - 1);
+        mergeSortHelper(nums);
     }
 
-    private void mergeSort(int[] nums, int[] helper, int left, int right) {
-        if(left < right) {
-            int mid = left + (right - left) / 2;
-            mergeSort(nums, helper, left, mid);
-            mergeSort(nums, helper, mid + 1, right);
-            merge(nums, helper, left, mid + 1, right);
+    private int[] mergeSortHelper(int[] nums) {
+        if(nums.length < 2) return nums;
+
+        int mid = nums.length / 2;
+        
+        // left and right are new arrays which are sorted
+        // copyOfRange(source array, start, end)
+        int[] left = mergeSortHelper(Arrays.copyOfRange(nums, 0, mid));
+        int[] right = mergeSortHelper(Arrays.copyOfRange(nums, mid, nums.length));
+
+        // merge into original array
+        for(int i = 0, j = 0; i < left.length || j < right.length;) {
+            if(j == right.length || (i < left.length && left[i] <= right[j])) {
+                nums[i + j] = left[i++];
+            } else {
+                nums[i + j] = right[j++];
+            }
         }
+        return nums;
+    }
+}
+
+public class Solution {
+    public void mergeSort(int[] nums) {
+        mergeSortHelper(nums, 0, nums.length);
     }
 
-    private void merge(int[] nums, int[] helper, int leftStart, int rightStart, int rightEnd) {
-        int leftEnd = rightStart - 1, anchor = leftStart, len = rightEnd - leftStart + 1;
+    private void mergeSortHelper(int[] nums, int start, int end) {
+        if(end - start <= 1) return;
 
-        while(leftStart <= leftEnd && rightStart <= rightEnd) {
-            helper[anchor++] = nums[leftStart] <= nums[rightStart] ? nums[leftStart++] : nums[rightStart++];
+        int mid = start + (end - start) / 2;
+
+        // left and right are sorted already
+        mergeSortHelper(nums, start, mid);
+        mergeSortHelper(nums, mid, end);
+
+        // create the cache array and its index
+        int[] cache = new int[end - start];
+        int r = 0;
+
+        // merge into cache
+        for(int i = start, j = mid; i < mid; i++) {
+            while(j < end && nums[j] < nums[i]) cache[r++] = nums[j++];
+            cache[r++] = nums[i];
         }
 
-        // Copy rest of left half and right half
-        while(leftStart <= leftEnd) helper[anchor++] = nums[leftStart++];
-        while(rightStart <= rightEnd) helper[anchor++] = nums[rightStart++];
-
-        // Copy helper back, have to copy from rightEnd because other vars are changed
-        for(int i = 0; i < len; i++) {
-            nums[rightEnd] = helper[rightEnd--];
-        }
+        // arraycopy(source array, source start, destination array, destination start, length)
+        System.arraycopy(cache, 0, nums, start, end - start);
     }
 }
