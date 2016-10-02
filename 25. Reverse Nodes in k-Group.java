@@ -24,9 +24,11 @@
 public class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
         if(head == null || head.next == null || k == 1) return head;
+        
         ListNode dummy = new ListNode(0), begin = dummy;
         dummy.next = head;
         int count = 0;
+        
         while(head != null) {
             if(++count % k == 0) {
                 begin = reverseList(begin, head.next);
