@@ -12,11 +12,13 @@ public class Solution {
             int left = i + 1, right = nums.length - 1;
             while(left < right) {
                 int tempSum = nums[i] + nums[left] + nums[right];
+                
                 if(tempSum == target) return target;
+                
                 if(Math.abs(target - tempSum) < Math.abs(target - sum)) sum = tempSum;
+                
                 if(tempSum < target) left++;
                 else right--;
-                
             }
         }
         return sum;
