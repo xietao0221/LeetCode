@@ -1,7 +1,6 @@
 public class Solution {
     public int removeElement(int[] nums, int val) {
-        if(nums.length == 1 && nums[0] == val) return 0;
-        else if(nums.length == 1 && nums[0] != val) return 1;
+        if(nums.length == 1) return nums[0] == val ? 0 : 1;
         
         int left = 0, right = nums.length - 1, count = 0;
         while(left <= right) {
