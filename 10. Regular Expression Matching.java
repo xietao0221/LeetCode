@@ -25,7 +25,7 @@ public class Solution {
                 if(pArray[j - 1] == sArray[i - 1] || pArray[j - 1] == '.') {
                     // p and s is the same, or they can be seen as the same because of '.'
                     dp[i][j] = dp[i - 1][j - 1];
-                } else if(pArray[j-1] == '*') {
+                } else if(pArray[j - 1] == '*') {
                     // * matches 0 of the preceding element, so 'a*' these two characters can be removed
                     dp[i][j] |= dp[i][j - 2];
                     
