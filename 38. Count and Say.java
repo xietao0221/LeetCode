@@ -2,30 +2,20 @@ public class Solution {
     public String countAndSay(int n) {
         if(n <= 1) return "1";
         if(n == 2) return "11";
-        StringBuilder prev = new StringBuilder("11");
-        
+        StringBuilder curr = new StringBuilder("11");
+
         while(n-- > 2) {
-            StringBuilder curr = new StringBuilder();
-            char target = prev.charAt(0);
-            int count = 0;
-            
-            for(int i = 0; i < prev.length(); i++) {
-                if(prev.charAt(i) == target) {
-                    count++;
-                } else {
-                    curr.append(count);
-                    curr.append(target);
-                    count = 1;
-                    target = prev.charAt(i);
-                }
+            StringBuilder next = new StringBuilder();
+            int left = 0, right = 0;
+            while(right < curr.length()) {
+                while(right + 1 < curr.length() && curr.charAt(right) == curr.charAt(right + 1)) right++;
+
+                next.append(right - left > 0 ? right - left + 1 : 1);
+                next.append(curr.charAt(left));
+                left = ++right;
             }
-            
-            if(count != 0) {
-                curr.append(count);
-                curr.append(target);
-                prev = curr;
-            }
+            curr = next;
         }
-        return prev.toString();
+        return curr.toString();
     }
 }
