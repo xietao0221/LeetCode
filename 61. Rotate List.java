@@ -8,32 +8,28 @@
  */
 public class Solution {
     public ListNode rotateRight(ListNode head, int k) {
-        if(head == null || k == 0) return head;
-        
-        ListNode curr = head, tail = null, res = null;
-        int count = 0;
-        
-        // find the list's size and its tail node
+        // get the length of linked list
+        ListNode curr = head, slow = head, fast = head;
+        int len = 0;
         while(curr != null) {
-            count++;
-            tail = curr;
+            len++;
             curr = curr.next;
         }
+        if(head == null || k % len == 0) return head;
         
-        k %= count;
-        if(count == 1 || k == 0) return head;
-        
-        // find the head of second part
-        curr = head;
-        while(count-- > k) {
-            if(count == k) {
-                res = curr.next;
-                curr.next = null;
-            } else {
-                curr = curr.next;
-            }
+        // make a gap and iterate the list
+        k %= len;
+        while(k-- > 0) fast = fast.next;
+        while(fast.next != null) {
+            slow = slow.next;
+            fast = fast.next;
         }
-        tail.next = head;
+        
+        // cut down and concatenate
+        ListNode res = slow.next;
+        slow.next = null;
+        fast.next = head;
+        
         return res;
     }
 }
