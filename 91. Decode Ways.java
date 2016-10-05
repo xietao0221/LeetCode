@@ -3,18 +3,24 @@ public class Solution {
         if(s == null || s.length() == 0) return 0;
         
         char[] sArray = s.toCharArray();
-        // dp[] represents the number of ways starting at i
-        int[] dp = new int[s.length() + 1];
-        dp[sArray.length] = 1;
-        dp[sArray.length - 1] = sArray[sArray.length - 1] == '0' ? 0 : 1;
+        int[] dp = new int[sArray.length + 1];
+        dp[0] = 1;
+        dp[1] = s.charAt(0) == '0' ? 0 : 1;
         
-        for(int i = sArray.length - 2; i >= 0; i--) {
-            if(sArray[i] == '0') continue;
-            
-            int tmp = 10 * (sArray[i] - '0') + (sArray[i + 1] - '0');
-            if(tmp <= 26) dp[i] = dp[i + 1] + dp[i + 2];
-            else dp[i] = dp[i + 1];
+        for(int i = 2; i < dp.length; i++) {
+            if(isValid(sArray, i - 1, i - 1)) dp[i] += dp[i - 1];
+            if(isValid(sArray, i - 2, i - 1)) dp[i] += dp[i - 2];
         }
-        return dp[0];
+        return dp[dp.length - 1];
+    }
+    
+    private boolean isValid(char[] sArray, int start, int end) {
+        if(sArray[start] == '0') return false;
+        
+        int res = 0;
+        if(start == end) res = sArray[start] - '0';
+        else res = 10 * (sArray[start] - '0') + (sArray[end] - '0');
+        
+        return res > 0 && res <= 26;
     }
 }
