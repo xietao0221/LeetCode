@@ -18,7 +18,7 @@ public class Solution {
             int num = Integer.parseInt(s.substring(index, index + i));
             
             // if num is invalid, return immediately, because the rest cannot be valid then
-            if (num > 255 || (i > 1 && num <= 9)) return;
+            if (num > 255 || (i > 1 && s.charAt(index) == '0')) return;
             
             int len = tmpRes.length();
             tmpRes.append(num).append(".");
