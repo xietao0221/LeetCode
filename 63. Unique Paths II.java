@@ -1,7 +1,7 @@
 public class Solution {
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int row = obstacleGrid.length, col = obstacleGrid[0].length;
-        if(obstacleGrid[row-1][col-1] == 1 || obstacleGrid[0][0] == 1) return 0;
+        if(obstacleGrid[row - 1][col - 1] == 1 || obstacleGrid[0][0] == 1) return 0;
         int[][] dp = new int[row][col];
         
         // setup the bottom line
@@ -18,7 +18,7 @@ public class Solution {
         // setup the right-most line
         for(int i = row - 1; i >= 0; i--) {
             if(obstacleGrid[i][col - 1] == 0) {
-                dp[i][col-1] = 1;
+                dp[i][col - 1] = 1;
             } else {
                 // set all points before this point to 0
                 while(i >= 0) dp[i--][col - 1] = 0;
