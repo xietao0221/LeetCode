@@ -19,8 +19,9 @@ public class Solution {
             } else {
                 curr = stack.pop();
                 
-                // find first and second
+                // find the first mis-order number
                 if(first == null && prev.val >= curr.val) first = prev;
+                // find the last mid-order number
                 if(first != null && prev.val >= curr.val) second = curr;
                 prev = curr;
                 
@@ -50,8 +51,9 @@ public class Solution {
     public void inOrderTraverse(TreeNode root) {
         if(root.left != null) inOrderTraverse(root.left);
         
-        // one choose prev, and the other choose curr root
+        // find the first mis-order number
         if(first == null && prev.val >= root.val) first = prev;
+        // find the last mis-order number
         if(first != null && prev.val >= root.val) second = root;
         prev = root;
         
