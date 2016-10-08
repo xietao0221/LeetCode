@@ -5,7 +5,7 @@ public class Solution {
         Arrays.sort(nums);
         List<List<Integer>> list = new ArrayList<>();
         for(int i = 0; i < nums.length - 2; i++) {
-            if(i > 0 && nums[i] == nums[i-1]) continue;                                 //avoid duplicate
+            if(i > 0 && nums[i] == nums[i - 1]) continue;                                //avoid duplicate
             int left = i + 1, right = nums.length - 1, target = -nums[i];
             while(left < right) {
                 if((nums[left] + nums[right]) == target) {
@@ -24,7 +24,6 @@ public class Solution {
         return list;
     }
 }
-
 
 // Recursive Approach
 /*
@@ -51,6 +50,33 @@ public class Solution {
             threeSumHelper(nums, i + 1, count - 1, sum + nums[i]);
             tmpRes.remove(tmpRes.size() - 1);
         }
+    }
+}
+*/
+
+// no sort solution, result in TLE
+/*
+public class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        if(nums == null || nums.length == 0) return new ArrayList<>();
+        
+        Set<List<Integer>> res = new HashSet<>();
+        for(int i = 0; i < nums.length - 2; i++) {
+            Set<Integer> set = new HashSet<>();
+            int target = -nums[i];
+            for(int j = i + 1; j < nums.length; j++) {
+                if(set.contains(target - nums[j])) {
+                    List<Integer> tmpRes = new ArrayList<>();
+                    tmpRes.add(nums[i]);
+                    tmpRes.add(nums[j]);
+                    tmpRes.add(target - nums[j]);
+                    Collections.sort(tmpRes);
+                    res.add(tmpRes);
+                }
+                set.add(nums[j]);
+            }
+        }
+        return new ArrayList<>(res);
     }
 }
 */
