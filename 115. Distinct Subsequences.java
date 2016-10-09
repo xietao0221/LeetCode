@@ -21,7 +21,7 @@ public class Solution {
                 if(sArray[i - 1] == tArray[j - 1]) {
                     // (1) use this information, this two characters can be removed, dp[i][j] += dp[i-1][j-1]
                     // (2) don't use this information, just remove s's character, dp[i][j] += dp[i-1][j] (we cannot
-                    // just remove t's character, because t is the target, we need to remove some characters in s)
+                    // DO NOT remove t's character, because t is the target, we need to remove some characters in s)
                     dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
                 } else {
                     // the new s's character is useless, just remove it
