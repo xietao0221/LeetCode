@@ -1,9 +1,10 @@
+// DP Solution
 public class Solution {
     public int minimumTotal(List<List<Integer>> triangle) {
         if(triangle == null || triangle.size() == 0) return 0;
         if(triangle.size() == 1) return triangle.get(0).get(0);
-        int res = Integer.MAX_VALUE;
         
+        int res = Integer.MAX_VALUE;
         for(int i = 1; i < triangle.size(); i++) {
             List<Integer> prev = triangle.get(i - 1);
             List<Integer> curr = triangle.get(i);
