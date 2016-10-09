@@ -9,6 +9,8 @@
  */
 public class Solution {
     public List<List<Integer>> pathSum(TreeNode root, int sum) {
+        if(root == null) return new ArrayList<>();
+        
         List<List<Integer>> res = new ArrayList<>();
         List<Integer> tmpRes = new ArrayList<>();
         pathSumHelper(root, sum, res, tmpRes);
@@ -16,9 +18,8 @@ public class Solution {
     }
     
     public void pathSumHelper(TreeNode root, int sum, List<List<Integer>> res, List<Integer> tmpRes) {
-        if(root == null) return;
-        
         tmpRes.add(root.val);
+        
         if(root.val == sum && root.left == null && root.right == null) {
             res.add(new ArrayList<>(tmpRes));
             return;
