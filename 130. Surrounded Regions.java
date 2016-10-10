@@ -38,8 +38,8 @@ public class Solution {
         public UnionFind(int m, int n) {
             this.m = m;
             this.n = n;
-            id = new int[m * n + 1];
-            size = new int[m * n + 1];
+            id = new int[m * n];
+            size = new int[m * n];
             for(int i = 0; i < id.length; i++) {
                 id[i] = i;
                 size[i] = 1;
@@ -51,7 +51,7 @@ public class Solution {
         }
     
         public int getID(int x, int y) {
-            if(x > 0 || y > 0 || x < m || y < n) return id[translate(x, y)];
+            if(x >= 0 && y >= 0 && x < m && y < n) return id[translate(x, y)];
             return 0;
         }
     
