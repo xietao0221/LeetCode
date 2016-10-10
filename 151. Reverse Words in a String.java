@@ -1,7 +1,23 @@
+// use extra space
 public class Solution {
     public String reverseWords(String s) {
+        if(s == null || s.length() == 0) return "";
+        
+        String[] array = s.trim().split(" +");
         StringBuilder sb = new StringBuilder();
-        char[] array = s.trim().toCharArray();
+        for(int i = array.length - 1; i >= 0; i--) {
+            sb.append(array[i]).append(" ");
+        }
+        if(sb.length() > 0) sb.setLength(sb.length() - 1);
+        return sb.toString();
+    }
+}
+
+// inplace
+/*
+public class Solution {
+    public String reverseWords(String s) {
+        char[] array = s.trim().replaceAll(" +", " ").toCharArray();
         reverseString(array, 0, array.length - 1);
         
         int start = 0, end = 0;
@@ -12,13 +28,9 @@ public class Solution {
             end--;
             
             reverseString(array, start, end);
-            for(int i = start; i <= end; i++) sb.append(array[i]);
-            sb.append(" ");
-            
             start = ++end;
         }
-        if(sb.length() > 0) sb.setLength(sb.length() - 1);
-        return sb.toString();
+        return new String(array);
     }
     
     public void reverseString(char[] array, int start, int end) {
@@ -29,3 +41,4 @@ public class Solution {
         }
     }
 }
+*/

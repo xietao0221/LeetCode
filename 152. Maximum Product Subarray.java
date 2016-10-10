@@ -1,3 +1,4 @@
+// Kadane Algorithm
 public class Solution {
     public int maxProduct(int[] nums) {
         int res = nums[0], maxEndingHere = nums[0], minEndingHere = nums[0];
