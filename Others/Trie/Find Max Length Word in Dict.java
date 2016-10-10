@@ -106,3 +106,48 @@ public class Solution {
         }
     }
 }
+
+
+
+public class Solution {
+    public List<String> findLongest(char[] chars, String[] dict) {
+        int[] map = new int[26];
+        for (char c : chars) map[c - 'a']++;
+        return build(dict, map);
+    }
+
+    private List<String> build(String[] dict, int[] map) {
+        List<String> res = new ArrayList<>();
+        TrieNode root = new TrieNode();
+        for (String word : dict) {
+            TrieNode cur = root;
+            for (char c : word.toCharArray()) {
+                int i = c - 'a';
+                if (cur.next[i] == null) {
+                    cur.next[i] = new TrieNode();
+                    if (map[i]-- == 0) {
+                        cur.next[i].isEnd = true;
+                    }
+                }
+                cur = cur.next[i];
+                if (cur.isEnd)
+                    break;
+            }
+            if (!cur.isEnd) {
+                if (!res.isEmpty() && res.get(0).length() < word.length())
+                    res = new ArrayList<>();
+                res.add(word);
+            }
+        }
+        return res;
+    }
+
+    class TrieNode {
+        boolean isEnd;
+        TrieNode[] next;
+        public TrieNode() {
+            isEnd = false;
+            next = new TrieNode[26];
+        }
+    }
+}
