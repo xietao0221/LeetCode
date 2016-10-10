@@ -3,7 +3,7 @@ class MinStack {
     Stack<Integer> stackMin = new Stack<>();
     
     public void push(int x) {
-        if(x <= getMin()) stackMin.push(x);
+        if(stackMin.isEmpty() || x <= getMin()) stackMin.push(x);
         stack.push(x);
     }
 
@@ -17,7 +17,6 @@ class MinStack {
     }
 
     public int getMin() {
-        if(stackMin.isEmpty()) return Integer.MAX_VALUE;
-        else return stackMin.peek();
+        return stackMin.peek();
     }
 }
