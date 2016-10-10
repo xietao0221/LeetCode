@@ -68,8 +68,8 @@ public class LRUCache {
         public CacheNode prev = null, next = null;
         
         public CacheNode(int key, int value) {
-            this.key = k;
-            this.value = v;
+            this.key = key;
+            this.value = value;
         }
     }
 }
