@@ -25,12 +25,14 @@ public class Solution {
             List<UndirectedGraphNode> cloneChildren = cloneParent.neighbors;
             
             // raw parent's children
-            for(UndirectedGraphNode child : rawParent.neighbors) {
-                if(!map.containsKey(child)) {       // if map does not contain it, we need to 'new' it and put it into queue
-                    map.put(child, new UndirectedGraphNode(child.label));
-                    queue.offer(child);
+            for(UndirectedGraphNode rawChild : rawParent.neighbors) {
+                if(!map.containsKey(rawChild)) {
+                    // if map does not contain it, we need to 'new' it and put it into queue
+                    map.put(rawChild, new UndirectedGraphNode(rawChild.label));
+                    queue.offer(rawChild);
                 }
-                cloneChildren.add(map.get(child));  // no matter it is new or not, we need to put it into children
+                // no matter it is new or not, we need to put it into children
+                cloneChildren.add(map.get(rawChild));
             }
         }
         return map.get(node);

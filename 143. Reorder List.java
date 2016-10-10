@@ -17,7 +17,7 @@ public class Solution {
             first = first.next;
             second = second.next.next;
         }
-        ListNode firstTail = first;     // 1->2->(3)->4->5; 1->(2)->3->4
+        ListNode firstTail = first;     // 1->2->(3)->4->5; 1->2->(3)->4
 
         // reverse the second part
         ListNode curr = firstTail.next, prev = null;

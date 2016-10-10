@@ -9,33 +9,27 @@
 public class Solution {
     public RandomListNode copyRandomList(RandomListNode head) {
         if(head == null) return head;
-        Map<RandomListNode, RandomListNode> map = new HashMap<>();
-        RandomListNode headOriginal = head, headNew = new RandomListNode(head.label), res = headNew;
+        Map<RandomListNode, RandomListNode> map = new HashMap<>();      // <raw, cloned>
+        RandomListNode clonedHead = new RandomListNode(head.label), rawHead = head;
+        map.put(rawHead, clonedHead);
         
-        while(headNew != null) {
-            // deal with the .next
-            if(headOriginal.next != null) {
-                if(!map.containsKey(headOriginal.next)) {
-                    headNew.next = new RandomListNode(headOriginal.next.label);
-                    map.put(headOriginal.next, headNew.next);    
-                } else {
-                    headNew.next = map.get(headOriginal.next);
-                }
+        while(rawHead != null) {
+            // deal with .next
+            if(rawHead.next != null) {
+                if(!map.containsKey(rawHead.next)) map.put(rawHead.next, new RandomListNode(rawHead.next.label));
+                clonedHead.next = map.get(rawHead.next);
             }
             
-            // deal with the .random
-            if(headOriginal.random != null) {
-                if(!map.containsKey(headOriginal.random)) {
-                    headNew.random = new RandomListNode(headOriginal.random.label);   
-                    map.put(headOriginal.random, headNew.random);
-                } else {
-                    headNew.random = map.get(headOriginal.random);
-                }
+            // deal with .random
+            if(rawHead.random != null) {
+                if(!map.containsKey(rawHead.random)) map.put(rawHead.random, new RandomListNode(rawHead.random.label));
+                clonedHead.random = map.get(rawHead.random);
             }
             
-            headNew = headNew.next;
-            headOriginal = headOriginal.next;
+            // move forward
+            rawHead = rawHead.next;
+            clonedHead = clonedHead.next;
         }
-        return res;
+        return map.get(head);
     }
 }
