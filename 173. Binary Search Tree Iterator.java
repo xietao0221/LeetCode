@@ -15,8 +15,7 @@ public class BSTIterator {
     public BSTIterator(TreeNode root) {
         list = new ArrayList<>();
         Stack<TreeNode> stack = new Stack<>();
-        
-        // iterative in-order traversal using stack
+
         TreeNode curr = root;
         while(curr != null || !stack.isEmpty()) {
             if(curr != null) {
