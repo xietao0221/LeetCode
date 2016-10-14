@@ -1,3 +1,25 @@
+// Better Solution
+class Solution {
+    public int lengthLongestPath(String input) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+        int res = 0;
+
+        for(String s : input.split("\n")){
+            int level = s.lastIndexOf("\t") + 1;
+            while(level + 1 < stack.size()) stack.pop();            // find parent
+            int len = stack.peek() + (s.length() - level) + 1;      // remove "/t", add"/"
+            stack.push(len);
+            
+            // check if it is file
+            if(s.contains(".")) res = Math.max(res, len - 1);
+        }
+        return res;
+    }
+}
+
+// My Solution
+/*
 public class Solution {
     public int lengthLongestPath(String input) {
         if(input == null || input.length() == 0) return 0;
@@ -24,8 +46,6 @@ public class Solution {
             boolean isFile = file.contains(".");
 
             // decide it is the children or brother
-            // because the final output must append a '/' on the beginning of fileName,
-            // I use fileName.length + 1 to represent the count
             if(level == curr.level) {       // brother
                 newFile = new FileNode(file.substring(index, file.length()),
                         curr.parent, file.length() - index + 1, level, isFile);
@@ -74,3 +94,4 @@ public class Solution {
         }
     }
 }
+*/
