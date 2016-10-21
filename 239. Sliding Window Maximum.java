@@ -8,19 +8,19 @@ public class Solution {
         LinkedList<Integer> queue = new LinkedList<>();     // save position info
         for(int i = 0; i < nums.length; i++) {
             // ensure the size of sliding window
-            // peek() is the oldest one
-            if(!queue.isEmpty() && queue.peek() < i - k + 1) queue.poll();
+            // check from the oldest one, use peekFirst/pollFirst
+            if(!queue.isEmpty() && queue.peekFirst() < i - k + 1) queue.pollFirst();
             
             // must use while, ensure all values in the sliding is greater than the current one
             // the value in queue is always decreasing
-            // peekLast() and pollLast() is newest one
+            // check from the newest one, use peekLast/pollLast
             while(!queue.isEmpty() && nums[queue.peekLast()] <= nums[i]) queue.pollLast();
             
             // offer to the tail, the value in the queue is decreasing
-            queue.offer(i);
+            queue.offerLast(i);
             
             // peek() is the oldest one and the largest one
-            if(i - k + 1 >= 0) res[i - k + 1] = nums[queue.peek()];
+            if(i - k + 1 >= 0) res[i - k + 1] = nums[queue.peekFirst()];
         }
         return res;
     }
