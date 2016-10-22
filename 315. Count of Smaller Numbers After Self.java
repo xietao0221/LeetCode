@@ -15,8 +15,10 @@ public class Solution {
         if(root == null) {
             // create new node no matter if it is duplicated
             res[index] = preSum;
-            root = new TreeNode(num);
-        } else if(num >= root.val) {
+            return new TreeNode(num);
+        }
+        
+        if(num >= root.val) {
             // only change the preSum when going right,
             // 1) preSum is the count before root.parent
             // 2) root.segmentLeftCount is the count between root.parent and root
