@@ -9,6 +9,7 @@ public class Solution {
 
         visited = new int[matrix.length][matrix[0].length];
         
+        // 1: pacific; 2: atlantic
         for (int i = 0; i < matrix.length; i++) {
             dfs(matrix, i, 0, Integer.MIN_VALUE, 1);
             dfs(matrix, i, matrix[0].length - 1, Integer.MIN_VALUE, 2);
@@ -41,16 +42,13 @@ public class Solution {
 public class Solution {
     public List<int[]> pacificAtlantic(int[][] matrix) {
         if(matrix == null || matrix.length == 0) return new ArrayList<>();
-        
+
         Set<Position> pacific = findFloodArea(matrix, 0, 0, true);
         Set<Position> atlantic = findFloodArea(matrix, matrix.length - 1, matrix[0].length - 1, false);
 
         List<int[]> res = new ArrayList<>();
-        Set<Position> smaller = pacific.size() < atlantic.size() ? pacific : atlantic;
-        Set<Position> bigger = pacific.size() < atlantic.size() ? atlantic : pacific;
-        for(Position pos : smaller) {
-            if(bigger.contains(pos)) res.add(new int[]{pos.row, pos.col});
-        }
+        pacific.retainAll(atlantic);
+        for(Position pos: pacific) res.add(new int[]{pos.row, pos.col});
         return res;
     }
 
