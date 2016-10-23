@@ -1,9 +1,9 @@
 public class Solution {
     public int[][] reconstructQueue(int[][] people) {
-        List<int[]> list = new ArrayList<>();
         PriorityQueue<int[]> queue = new PriorityQueue<>(new PQComparator());
-        
         for(int[] person: people) queue.offer(person);
+        
+        List<int[]> list = new ArrayList<>();
         while(!queue.isEmpty()) insert(queue.poll(), list);
         
         int[][] res = new int[people.length][2];
@@ -27,6 +27,8 @@ public class Solution {
         list.add(person);
     }
     
+    // order the people in DEC height: inserting the lower person cannot hurt the k value of previous people
+    // if two people have the same height, order them in INC k
     class PQComparator implements Comparator<int[]> {
         public int compare(int[] a, int[] b) {
             return a[0] == b[0] ? a[1] - b[1] : b[0] - a[0];
