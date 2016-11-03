@@ -16,14 +16,12 @@ public class Solution {
         if(i < 0 || j < 0 || i == board.length || j == board[0].length) return false;
         if(board[i][j] == '#' || board[i][j] != word[start]) return false;
         
-        boolean res = false;
         char c = board[i][j];
         board[i][j] = '#';          // use '#' to represent this cell is visited
         
         for(int[] dir: dirs) {
             int newRow = i + dir[0], newCol = j + dir[1];
-            res |= dfs(board, dirs, newRow, newCol, word, start + 1);
-            if(res) return true;    // if successfully find the word, return immediately
+            if(dfs(board, dirs, newRow, newCol, word, start + 1)) return true;
         }
         
         board[i][j] = c;            // backtracking
