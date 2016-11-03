@@ -12,8 +12,7 @@ public class Solution {
             char c = sArray[i];
             
             if(c >= '0' && c <= '9') {
-                int digit = c - '0';
-                num = 10 * num + (c - '0');
+                num = c - '0';
                 while(i + 1 < sArray.length && (sArray[i + 1] >= '0' && sArray[i + 1] <= '9')) {
                     num = 10 * num + (sArray[++i] - '0');
                 }
