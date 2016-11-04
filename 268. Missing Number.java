@@ -1,19 +1,22 @@
 // put each number to its right place
 public class Solution {
     public int missingNumber(int[] nums) {
-        for(int i = 0; i < nums.length; i++) {
-            while(i != nums[i] && nums[i] < nums.length) {
-                // swap two numbers at i and nums[i]
-                int tmp = nums[nums[i]];
-                nums[nums[i]] = nums[i];
-                nums[i] = tmp;
-            }
+        int index = 0;
+        while(index < nums.length) {
+            if(index == nums[index] || nums[index] >= nums.length) index++;
+            else swap(nums, index, nums[index]);
         }
         
         for(int i = 0; i < nums.length; i++) {
             if(nums[i] != i) return i;
         }
         return nums.length;
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
     }
 }
 
