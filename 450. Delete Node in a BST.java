@@ -17,8 +17,8 @@ public class Solution {
             
             TreeNode deleted = root;
             root = min(root.right);
+            root.right = deleteMinHelper(deleted.right);
             root.left = deleted.left;
-            root.right = deleteNode(deleted.right, key);
         } else if(key < root.val) {
             root.left = deleteNode(root.left, key);
         } else {
@@ -30,5 +30,11 @@ public class Solution {
     private TreeNode min(TreeNode root) {
         while(root.left != null) root = root.left;    
         return root;
+    }
+    
+    private TreeNode deleteMinHelper(TreeNode curr) {
+        if(curr.left == null) return curr.right;
+        curr.left = deleteMinHelper(curr.left);
+        return curr;
     }
 }
