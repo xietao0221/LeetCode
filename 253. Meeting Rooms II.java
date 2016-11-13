@@ -12,26 +12,19 @@ public class Solution {
         if(intervals == null) return 0;
         if(intervals.length < 2) return intervals.length;
         
-        Arrays.sort(intervals, new Comparator<Interval>() {
-            public int compare(Interval a, Interval b) {
-                return a.start - b.start;
-            }
-        });
-
-        PriorityQueue<Interval> minHeap = new PriorityQueue<>(new Comparator<Interval>() {
-            public int compare(Interval a, Interval b) {
-                return a.end - b.end;
-            }
-        });
+        Arrays.sort(intervals, (a, b) -> (a.start - b.start));
+        PriorityQueue<Interval> minHeap = new PriorityQueue<>((a, b) -> (a.end - b.end));
 
         minHeap.offer(intervals[0]);
         for(int i = 1; i < intervals.length; i++) {
             Interval target = minHeap.poll();
+            
             if(target.end <= intervals[i].start) {      // no conflict, change one and offer one
                 target.end = intervals[i].end;
             } else {                                    // conflict, offer both
                 minHeap.offer(intervals[i]);
             }
+            
             minHeap.offer(target);
         }
         return minHeap.size();
