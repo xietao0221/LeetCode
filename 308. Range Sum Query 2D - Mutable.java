@@ -1,16 +1,16 @@
 // https://discuss.leetcode.com/topic/30343/java-2d-binary-indexed-tree-solution-clean-and-short-17ms
 public class NumMatrix {
-
     int[][] fenwickTree, originalMatrix;
     int m, n;
     
     public NumMatrix(int[][] matrix) {
         if (matrix.length == 0 || matrix[0].length == 0) return;
         
-        this.m = matrix.length;
-        this.n = matrix[0].length;
-        this.fenwickTree = new int[m + 1][n + 1];
-        this.originalMatrix = new int[m][n];
+        m = matrix.length;
+        n = matrix[0].length;
+        fenwickTree = new int[m + 1][n + 1];
+        originalMatrix = new int[m][n];
+        
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
                 update(i, j, matrix[i][j]);
